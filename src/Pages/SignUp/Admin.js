@@ -3,8 +3,9 @@ import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-import './SignUp.css'
-function Shop() {
+import './SignUp.css';
+// toast.configure();
+function Admin() {
     const notify = () => toast.success("Great! Account created Successfully", { position: toast.POSITION.TOP_CENTER, autoClose: 2000 });
     let navigate = useNavigate();
     const [values, setValues] = useState({
@@ -14,9 +15,7 @@ function Shop() {
         last_name: "",
         email: "",
         mobile: "",
-        employee_name: "",
-        employee_id: "",
-        location: ""
+        district: ""
     });
     const handleChange = (e) => {
         setValues({
@@ -33,14 +32,12 @@ function Shop() {
             last_name: values.last_name,
             email: values.email,
             mobile: values.mobile,
-            employee_name: values.employee_name,
-            employee_id: values.employee_id,
-            location:values.location 
+            district: values.district
           }
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/signup/shop/`,
+            url: `https://ration-master.herokuapp.com/accounts/signup/admin/`,
             data: payload,
             headers: {
               // 'Authorization': `bearer ${token}`,
@@ -60,9 +57,7 @@ function Shop() {
                     last_name: "",
                     email: "",
                     mobile: "",
-                    employee_name: "",
-                    employee_id: "",
-                    location: ""
+                    district: ""
                 }
             )
           }
@@ -87,9 +82,7 @@ function Shop() {
                 <input type="text" name="username" placeholder="UserName" value={values.username} onChange={handleChange} />
                 <input type="number" name="mobile" placeholder="Mobile number" value={values.mobile} onChange={handleChange} />
                 <input type="email" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
-                <input type="number" name="employee_id" placeholder="Employee ID" value={values.employee_id} onChange={handleChange} />
-                <input type="text" name="employee_name" placeholder="Employee Name" value={values.employee_name} onChange={handleChange} />
-                <input type="text" name="location" placeholder="Location" value={values.location} onChange={handleChange} />
+                <input type="text" name="district" placeholder="District" value={values.district} onChange={handleChange} />
                 <input type="password" name="password" placeholder="Password" value={values.password} onChange={handleChange} />
                 <button class="btnn" onClick={handleSubmit}>Register</button>
                 <p class="link">Already have an account?<br /><Link to='/'>Sign In</Link> here</p>
@@ -97,4 +90,4 @@ function Shop() {
         </div>
     )
 }
-export default Shop;
+export default Admin;

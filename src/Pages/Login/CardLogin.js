@@ -1,8 +1,42 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import axios from "axios";
 import './Login.css'
 function CardLogin() {
     const [otp, setOtp] = useState(false)
+    const [values, setValues] = useState({
+        card_number: "",
+        otp: ""
+    });
+    const handleChange = (e) => {
+        setValues({
+            ...values, [e.target.name]: e.target.value
+        });
+    }
+    const getOtp = (e) => {
+       
+        axios({
+            method: 'get',
+            url: `https://ration-master.herokuapp.com/accounts/login/create/otp/?card_number=9876543219"`
+        }).then((response) => {
+            console.log(response);
+            setOtp(true);
+        }
+        )
+            .catch((error) => {
+                console.log('error', error)
+            })
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(values);
+        setValues(
+            {
+                card_number: "",
+                otp: ""
+            }
+        )
+    }
     return (
         <div class="Homemain">
             <div class="navbar">
@@ -33,11 +67,10 @@ function CardLogin() {
                         <span class="line"></span>
                     </div>
                     <h2>Login as Card Holder</h2>
-                    <input type="text" name="Card No:" placeholder="Ration card number" />
-                    <input type="number" name="Mobile No" placeholder="Mobile number" />
-                    {!otp && <button class="btnn" onClick={() => setOtp(true)}>Get OTP</button>}
-                    {otp && <><input type="number" name="Mobile No" placeholder="Enter OTP" />
-                        <button class="btnn">Log in</button></>}
+                    <input type="text" name="card_number" placeholder="Ration card number" value={values.card_number} onChange={handleChange} />
+                    {!otp && <button class="btnn" onClick={getOtp}>Get OTP</button>}
+                    {otp && <><input type="number" name="otp" placeholder="Enter OTP" value={values.otp} onChange={handleChange} />
+                        <button class="btnn" onClick={handleSubmit}>Log in</button></>}
                     <p class="link">Don't have an account?<br /><Link to='/signupShop'>Sign Up</Link> here</p>
                 </div>
             </div>
