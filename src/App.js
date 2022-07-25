@@ -5,6 +5,7 @@ import CardLogin from './Pages/Login/CardLogin';
 import Shop from './Pages/SignUp/Shop';
 import Card from './Pages/SignUp/Card';
 import Admin from './Pages/SignUp/Admin';
+import Dashboard from './Pages/Dashboard';
 function App() {
   return (
     <div>
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/signupShop" element={<Shop />} />
           <Route exact path="/signUpCard" element={<Card />} />
           <Route exact path="/signUpAdmin" element={<Admin />} />
+          <Route exact path="/Dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </div>
