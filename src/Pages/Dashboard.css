@@ -116,7 +116,8 @@ img {
 
 .cards {
   margin-top: 60px;
-  width: 100%;
+  /* width: 100%; */
+  margin-left: 80px;
   padding: 35px 0px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -129,7 +130,10 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 150px;
+  height: 35px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 }
 
 .number {

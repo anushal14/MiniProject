@@ -37,7 +37,7 @@ function Sidebar() {
                         <div class="title">Shop</div>
                     </a>
                 </li>
-                <li>
+                <li onClick={()=>navigate(`/ProductTable`)}>
                     <a href="">
                         <i class="fas fa-puzzle-piece"></i>
                         <div class="title">Products</div>

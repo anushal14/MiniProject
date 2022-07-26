@@ -7,6 +7,7 @@ import Card from './Pages/SignUp/Card';
 import Admin from './Pages/SignUp/Admin';
 import ShopTable from './Pages/ShopTable';
 import CardTable from './Pages/CardTable';
+import ProductTable from './Pages/ProductTable';
 function App() {
   return (
     <div>
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/signUpAdmin" element={<Admin />} />
           <Route exact path="/ShopTable" element={<ShopTable />} />
           <Route exact path="/CardTable" element={<CardTable />} />
+          <Route exact path="/ProductTable" element={<ProductTable />} />
         </Routes>
       </BrowserRouter>
     </div>
