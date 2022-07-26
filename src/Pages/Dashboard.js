@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 import './Dashboard.css';
 import LogoutDialog from "../Components/LogoutDialogue";
 import Table from "../Components/Table";
 function Dashboard() {
     let navigate = useNavigate();
     const [dialogue, setDialogue] = useState(false);
-
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
     }
-    
+
     const onLogout = () => {
         navigate(`/`);
         localStorage.clear();

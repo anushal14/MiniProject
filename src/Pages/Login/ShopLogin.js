@@ -4,10 +4,15 @@ import axios from 'axios';
 import './Login.css'
 function ShopLogin() {
     const [responseData, setResponseData] = useState({})
+    const [error,setError]=useState("")
     const [values, setValues] = useState({
         username: "",
         password: ""
     });
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function (event) {
+        window.history.go(1);
+    }
     const handleChange = (e) => {
         setValues({
             ...values, [e.target.name]: e.target.value
@@ -44,6 +49,8 @@ function ShopLogin() {
           )
             .catch((error) => {
               console.log('error', error.response.data)
+              setError(error.response.data)
+
             })
        
     }
@@ -83,8 +90,12 @@ function ShopLogin() {
                     </div>
                     <h2>Login as Shop Owner</h2>
                     <input type="text" name="username" placeholder="User Name" value={values.username} onChange={handleChange}/>
+                    <span style={{ color: "red"}}>{error.username}</span>
                     <input type="password" name="password" placeholder="Password" value={values.password} onChange={handleChange} />
+                    <span style={{ color: "red" }}>{error.password}</span>
+                    
                     <button class="btnn" onClick={handleSubmit}>Log in</button>
+                    <center><span style={{ color: "red" }}>{error.detail}</span></center>
                     <p class="link">Don't have an account?<br /><Link to='/signupShop'>Sign Up</Link> here</p>
                 </div>
             </div>

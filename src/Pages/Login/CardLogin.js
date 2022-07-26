@@ -13,11 +13,16 @@ function CardLogin() {
             ...values, [e.target.name]: e.target.value
         });
     }
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function (event) {
+        window.history.go(1);
+    }
     const getOtp = (e) => {
-       
+        e.preventDefault();
+       console.log(values)
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/login/create/otp/?card_number=9876543219"`
+            url: `https://ration-master.herokuapp.com/accounts/login/create/otp/?card_number=${values.card_number}"`
         }).then((response) => {
             console.log(response);
             setOtp(true);
