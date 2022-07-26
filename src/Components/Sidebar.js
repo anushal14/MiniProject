@@ -40,7 +40,7 @@ function Sidebar() {
                 <li>
                     <a href="">
                         <i class="fas fa-puzzle-piece"></i>
-                        <div class="title">Departments</div>
+                        <div class="title">Products</div>
                     </a>
                 </li>
                 <li>

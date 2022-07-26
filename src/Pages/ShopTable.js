@@ -68,7 +68,7 @@ function ShopTable() {
                     <div class="card">
                         <div class="card-content">
                             <div class="number">67</div>
-                            <div class="card-name">Appointments</div>
+                            <div class="card-name">Arrtrt</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-briefcase-medical"></i>
@@ -77,7 +77,7 @@ function ShopTable() {
                     <div class="card">
                         <div class="card-content">
                             <div class="number">105</div>
-                            <div class="card-name">New Patients</div>
+                            <div class="card-name">ertreg</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-wheelchair"></i>
@@ -86,7 +86,7 @@ function ShopTable() {
                     <div class="card">
                         <div class="card-content">
                             <div class="number">8</div>
-                            <div class="card-name">Operations</div>
+                            <div class="card-name">dgret</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-bed"></i>
@@ -94,8 +94,8 @@ function ShopTable() {
                     </div>
                     <div class="card">
                         <div class="card-content">
-                            <div class="number">$4500</div>
-                            <div class="card-name">Earnings</div>
+                            <div class="number">4500</div>
+                            <div class="card-name">retrtert</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-dollar-sign"></i>

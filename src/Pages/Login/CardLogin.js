@@ -24,7 +24,7 @@ function CardLogin() {
        console.log(values)
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/login/create/otp/?card_number=${values.card_number}"`
+            url: `https://ration-master.herokuapp.com/accounts/login/create/otp/?card_number=${values.card_number}`
         }).then((response) => {
             console.log(response);
             setOtp(true);
@@ -32,18 +32,44 @@ function CardLogin() {
         )
             .catch((error) => {
                 console.log('error', error)
-                setError("Enter Valid Card Number")
+                setError(error.response.data)
             })
     }
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(values);
-        setValues(
-            {
-                card_number: "",
-                otp: ""
-            }
-        )
+        const payload = {
+            card_number: values.card_number,
+            otp: values.otp
+          }
+      
+          axios({
+            method: 'post',
+            url: `https://ration-master.herokuapp.com/accounts/login/otp/`,
+            data: payload,
+            headers: {
+              // 'Authorization': `bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+          }).then((response) => {
+            console.log(response);
+            localStorage.setItem('bearer', response.data.bearer);
+            localStorage.setItem('user-id', response.data.idencode);
+            setOtp(false);
+            setValues(
+                {
+                    card_number: "",
+                    otp: ""
+                }
+            )
+          }
+          )
+            .catch((error) => {
+              console.log('error', error.response.data)
+              setError(error.response.data)
+
+            })
+        
     }
     return (
         <div class="Homemain">
@@ -76,10 +102,12 @@ function CardLogin() {
                     </div>
                     <h2>Login as Card Holder</h2>
                     <input type="text" name="card_number" placeholder="Ration card number" value={values.card_number} onChange={handleChange} />
-                    <span style={{ color: "red"}}>{error}</span>
+                    
                     {!otp && <button class="btnn" onClick={getOtp}>Get OTP</button>}
                     {otp && <><input type="number" name="otp" placeholder="Enter OTP" value={values.otp} onChange={handleChange} />
+                    <span style={{ color: "red"}}>{error.otp}</span>
                         <button class="btnn" onClick={handleSubmit}>Log in</button></>}
+                        <center><span style={{ color: "red"}}>{error.detail}</span></center>
                     <p class="link">Don't have an account?<br /><Link to='/signupShop'>Sign Up</Link> here</p>
                 </div>
             </div>
