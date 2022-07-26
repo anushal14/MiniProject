@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import './Dashboard.css';
+import Loading from "../Components/Loading";
 function ShopTable() {
     const [shop, setShop] = useState([])
+    const [dashboardLoading, setDashboardLoading] = useState(true);
+    const [verify, setVerify] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
@@ -11,7 +14,7 @@ function ShopTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/signup/shop/?location=&verified=`,
+            url: `https://ration-master.herokuapp.com/accounts/signup/shop/?location=&verified=${verify}`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -21,15 +24,22 @@ function ShopTable() {
         }).then((response) => {
             console.log('shopData', response)
             setShop(response.data.results);
+            setDashboardLoading(false)
         }
         )
             .catch((error) => {
                 console.log('error', error.response.data)
 
             })
-    }, [])
+    }, [verify])
+
+    const switchTable=()=>{
+        setDashboardLoading(true)
+        setVerify(!verify)
+    }
 
     const ShopVerify = (id) => {
+            setVerify(true)
         axios({
             method: 'patch',
             url: `https://ration-master.herokuapp.com/accounts/verify/shop/${id}/`,
@@ -41,6 +51,7 @@ function ShopTable() {
             },
         }).then((response) => {
             console.log('shopData', response)
+            
         }
         )
             .catch((error) => {
@@ -48,11 +59,10 @@ function ShopTable() {
 
             })
     }
-    return (
+    return (<div>
+        {dashboardLoading && <Loading/>}
         <div class="container">
-
             <Sidebar />
-
             <div class="main">
                 <div class="top-bar">
                     <div class="search">
@@ -65,25 +75,25 @@ function ShopTable() {
                     </div>
                 </div>
                 <div class="cards">
-                    <div class="card">
+                    <div class="card" onClick={switchTable} style={{border:verify?"":"2px solid green"}}>
                         <div class="card-content">
                             <div class="number">67</div>
-                            <div class="card-name">Arrtrt</div>
+                            <div class="card-name">Non-Verified</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-briefcase-medical"></i>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card" onClick={switchTable} style={{border:verify?"2px solid green":""}}>
                         <div class="card-content">
                             <div class="number">105</div>
-                            <div class="card-name">ertreg</div>
+                            <div class="card-name">Verified</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-wheelchair"></i>
                         </div>
                     </div>
-                    <div class="card">
+                    {/* <div class="card">
                         <div class="card-content">
                             <div class="number">8</div>
                             <div class="card-name">dgret</div>
@@ -100,7 +110,7 @@ function ShopTable() {
                         <div class="icon-box">
                             <i class="fas fa-dollar-sign"></i>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div class="tables">
                     <div class="last-appointments">
@@ -113,7 +123,7 @@ function ShopTable() {
                                 <td>Employee Name</td>
                                 <td>Email</td>
                                 <td>Mobile</td>
-                                <td>Actions</td>
+                                {!verify && <td>Actions</td>}
                             </thead>
                             <tbody>
                             {shop.map((shop) => (
@@ -124,8 +134,8 @@ function ShopTable() {
                             <td >{shop.employee_id}</td>
                             <td >{shop.email}</td>
                             <td >{shop.mobile}</td>
-                            <td><button style={{marginRight:"10px"}}  onClick={() => ShopVerify(shop.idencode)}>&#9989;</button>
-                            <button>&#10060;</button></td>
+                            {!verify && <td><button style={{marginRight:"10px"}}  onClick={() => ShopVerify(shop.idencode)}>&#9989;</button>
+                            <button>&#10060;</button></td>}
 
                         </tr>
                     ))}
@@ -136,6 +146,7 @@ function ShopTable() {
 
                 </div>
             </div>
+        </div>
         </div>
     );
 }

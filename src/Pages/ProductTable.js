@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import AddProduct from "../Components/AddProduct";
+import Loading from "../Components/Loading";
 import './Dashboard.css';
 function ProductTable() {
     const [product, setProduct] = useState([])
+    const [dashboardLoading, setDashboardLoading] = useState(true);
     const [newProduct, setNewProduct] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
@@ -23,18 +25,21 @@ function ProductTable() {
         }).then((response) => {
             console.log('Product', response)
             setProduct(response.data.results);
+            setDashboardLoading(false)
         }
         )
             .catch((error) => {
                 console.log('error', error.response.data)
 
             })
-    }, [newProduct===false])
+    }, [newProduct])
 
-    
+
     return (
+        <div>
+            {dashboardLoading && <Loading />}
         <div class="container">
-
+            
             <Sidebar />
 
             <div class="main">
@@ -49,16 +54,16 @@ function ProductTable() {
                     </div>
                 </div>
                 <div class="cards">
-                    <div class="card" onClick={()=>setNewProduct(true)}>
+                    <div class="card" onClick={() => setNewProduct(true)}>
                         <div class="card-content">
-                        <div class="number">&#43;</div>
+                            <div class="number">&#43;</div>
                             <div class="card-name">New Product</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-briefcase-medical"></i>
                         </div>
                     </div>
-                    <div class="card">
+                    {/* <div class="card">
                         <div class="card-content">
                         <div class="number">67</div>
                             <div class="card-name">ertreg</div>
@@ -84,7 +89,7 @@ function ProductTable() {
                         <div class="icon-box">
                             <i class="fas fa-dollar-sign"></i>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div class="tables">
                     <div class="last-appointments">
@@ -93,24 +98,24 @@ function ProductTable() {
                             <thead>
                                 <td>Product Name</td>
                                 <td>Unit</td>
-                                
+
                             </thead>
                             <tbody>
-                            {product.map((product) => (
-                        <tr key={product.idencode}>
-                            <td >{product.name}</td>
-                            <td>{product.unit}</td>
-                            
-                        </tr>
-                    ))}
+                                {product.map((product) => (
+                                    <tr key={product.idencode}>
+                                        <td >{product.name}</td>
+                                        <td>{product.unit}</td>
+
+                                    </tr>
+                                ))}
 
                             </tbody>
                         </table>
                     </div>
-                    {newProduct && <AddProduct setNewProduct={setNewProduct}/>}
+                    {newProduct && <AddProduct setNewProduct={setNewProduct} />}
                 </div>
             </div>
-            
+            </div>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import Sidebar from "../Components/Sidebar";
 import './Dashboard.css';
 function CardTable() {
     const [card, setCard] = useState([])
+    const [verify, setVerify] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
@@ -27,7 +28,7 @@ function CardTable() {
                 console.log('error', error.response.data)
 
             })
-    }, [])
+    }, [verify])
 
     const CardVerify = (id) => {
         axios({
@@ -65,25 +66,25 @@ function CardTable() {
                     </div>
                 </div>
                 <div class="cards">
-                    <div class="card">
+                <div class="card" onClick={()=>setVerify(false)}>
                         <div class="card-content">
                             <div class="number">67</div>
-                            <div class="card-name">Arrtrt</div>
+                            <div class="card-name">Non-Verified</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-briefcase-medical"></i>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card" onClick={()=>setVerify(true)}>
                         <div class="card-content">
                             <div class="number">105</div>
-                            <div class="card-name">ertreg</div>
+                            <div class="card-name">Verified</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-wheelchair"></i>
                         </div>
                     </div>
-                    <div class="card">
+                    {/* <div class="card">
                         <div class="card-content">
                             <div class="number">8</div>
                             <div class="card-name">dgret</div>
@@ -100,7 +101,7 @@ function CardTable() {
                         <div class="icon-box">
                             <i class="fas fa-dollar-sign"></i>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div class="tables">
                     <div class="last-appointments">
