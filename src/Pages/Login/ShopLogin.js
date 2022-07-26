@@ -1,8 +1,9 @@
 import React,{useState} from "react";
-import { Link } from 'react-router-dom';
+import { Link,Navigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css'
 function ShopLogin() {
+    const [responseData, setResponseData] = useState({})
     const [values, setValues] = useState({
         username: "",
         password: ""
@@ -30,6 +31,7 @@ function ShopLogin() {
             },
           }).then((response) => {
             console.log(response);
+            setResponseData(response.data);
             localStorage.setItem('bearer', response.data.bearer);
             localStorage.setItem('user-id', response.data.idencode);
             setValues(
@@ -45,6 +47,11 @@ function ShopLogin() {
             })
        
     }
+    if (responseData.bearer) {
+        return <div>
+          <Navigate to='/dashboard' />
+        </div>
+      }
     return (
         <div class="Homemain">
             <div class="navbar">

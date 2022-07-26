@@ -20,8 +20,8 @@
     
    
     thead {
-      color: white;
-      background: #0D0C22;
+      color: rgb(0, 0, 0);
+      background: #d6d6d6;
     }
       th {
         padding: 1em;
