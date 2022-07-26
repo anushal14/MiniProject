@@ -52,8 +52,11 @@
 
 .DialogueTitle {
     font-weight: 600;
+    margin-left: 30px;
 }
 
 .DialoguePara {
     font-weight: 500;
+    margin-left: 30px;
+    margin-bottom: 30Px;
 }

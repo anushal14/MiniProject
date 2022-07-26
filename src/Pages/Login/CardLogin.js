@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import './Login.css'
 function CardLogin() {
-    const [otp, setOtp] = useState(false)
+    const [otp, setOtp] = useState(false);
+    const [error,setError]=useState("")
     const [values, setValues] = useState({
         card_number: "",
         otp: ""
     });
     const handleChange = (e) => {
+        setError("")
         setValues({
             ...values, [e.target.name]: e.target.value
         });
@@ -30,6 +32,7 @@ function CardLogin() {
         )
             .catch((error) => {
                 console.log('error', error)
+                setError("Enter Valid Card Number")
             })
     }
     const handleSubmit = (e) => {
@@ -73,6 +76,7 @@ function CardLogin() {
                     </div>
                     <h2>Login as Card Holder</h2>
                     <input type="text" name="card_number" placeholder="Ration card number" value={values.card_number} onChange={handleChange} />
+                    <span style={{ color: "red"}}>{error}</span>
                     {!otp && <button class="btnn" onClick={getOtp}>Get OTP</button>}
                     {otp && <><input type="number" name="otp" placeholder="Enter OTP" value={values.otp} onChange={handleChange} />
                         <button class="btnn" onClick={handleSubmit}>Log in</button></>}

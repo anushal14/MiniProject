@@ -56,7 +56,7 @@ function ShopLogin() {
     }
     if (responseData.bearer) {
         return <div>
-          <Navigate to='/dashboard' />
+          <Navigate to='/ShopTable' />
         </div>
       }
     return (
