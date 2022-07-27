@@ -49,10 +49,10 @@ function Sidebar() {
                         <div class="title">Payments</div>
                     </a>
                 </li>
-                <li>
+                <li onClick={()=>navigate(`/StockTable`)}>
                     <a href="#">
                         <i class="fas fa-cog"></i>
-                        <div class="title">Settings</div>
+                        <div class="title">Stock</div>
                     </a>
                 </li>
                 <li>

@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import './Dashboard.css';
+import Loading from "../Components/Loading";
 function CardTable() {
     const [card, setCard] = useState([])
+    const [next, setNext] = useState("");
+    const [previous, setPrevious] = useState("");
+    const [dashboardLoading, setDashboardLoading] = useState(true);
     const [verify, setVerify] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
@@ -12,7 +16,7 @@ function CardTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/signup/card/?number=&verified=`,
+            url: `https://ration-master.herokuapp.com/accounts/signup/card/?number=&verified=${verify}`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -22,6 +26,9 @@ function CardTable() {
         }).then((response) => {
             console.log('cardData', response)
             setCard(response.data.results);
+            setNext(response.data.next);
+            setPrevious(response.data.previous);
+            setDashboardLoading(false)
         }
         )
             .catch((error) => {
@@ -29,6 +36,11 @@ function CardTable() {
 
             })
     }, [verify])
+
+    const switchTable=()=>{
+        setDashboardLoading(true)
+        setVerify(!verify)
+    }
 
     const CardVerify = (id) => {
         axios({
@@ -49,7 +61,54 @@ function CardTable() {
 
             })
     }
+
+    const CardDelete = (id) => {
+        axios({
+            method: 'patch',
+            url: `https://ration-master.herokuapp.com/accounts/delete/card/${id}/`,
+            headers: {
+                //  'Authorization': `bearer ${token}`,
+                'bearer': localStorage.getItem('bearer'),
+                'user-id': localStorage.getItem('user-id'),
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            console.log('shopData', response)
+        }
+        )
+            .catch((error) => {
+                console.log('error', error.response.data)
+
+            })
+    }
+
+    const onSwitchPage = (e) => {
+        axios({
+            method: 'get',
+            url: e.target.value,
+            headers: {
+                //  'Authorization': `bearer ${token}`,
+                'bearer': localStorage.getItem('bearer'),
+                'user-id': localStorage.getItem('user-id'),
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            console.log('cardData', response)
+            setCard(response.data.results);
+            setDashboardLoading(false)
+            setNext(response.data.next);
+            setPrevious(response.data.previous);
+        }
+        )
+            .catch((error) => {
+                console.log('error', error.response.data)
+
+            })
+        }
     return (
+        <div>
+            {dashboardLoading && <Loading/>}
+        
         <div class="container">
 
             <Sidebar />
@@ -66,7 +125,7 @@ function CardTable() {
                     </div>
                 </div>
                 <div class="cards">
-                <div class="card" onClick={()=>setVerify(false)}>
+                <div class="card" onClick={switchTable} style={{border:verify?"":"2px solid green"}}>
                         <div class="card-content">
                             <div class="number">67</div>
                             <div class="card-name">Non-Verified</div>
@@ -75,7 +134,7 @@ function CardTable() {
                             <i class="fas fa-briefcase-medical"></i>
                         </div>
                     </div>
-                    <div class="card" onClick={()=>setVerify(true)}>
+                    <div class="card" onClick={switchTable} style={{border:verify?"2px solid green":""}}>
                         <div class="card-content">
                             <div class="number">105</div>
                             <div class="card-name">Verified</div>
@@ -103,6 +162,7 @@ function CardTable() {
                         </div>
                     </div> */}
                 </div>
+                <h3 style={{color:"#060082",marginLeft:"20px",marginBottom:"10px"}}>Card Details</h3>
                 <div class="tables">
                     <div class="last-appointments">
 
@@ -113,7 +173,7 @@ function CardTable() {
                                 <td>Card Type</td>
                                 <td>Email</td>
                                 <td>Mobile</td>
-                                <td>Actions</td>
+                                {!verify && <td>Actions</td>}
                             </thead>
                             <tbody>
                             {card.map((card) => (
@@ -123,8 +183,8 @@ function CardTable() {
                             <td >{card.card_type}</td>
                             <td >{card.email}</td>
                             <td >{card.mobile}</td>
-                            <td><button style={{marginRight:"10px"}}  onClick={() => CardVerify(card.idencode)}>&#9989;</button>
-                            <button>&#10060;</button></td>
+                            {!verify && <td><button style={{marginRight:"10px"}}  onClick={() => CardVerify(card.idencode)}>&#9989;</button>
+                            <button onClick={() => CardDelete(card.idencode)}>&#10060;</button></td>}
 
                         </tr>
                     ))}
@@ -132,9 +192,13 @@ function CardTable() {
                             </tbody>
                         </table>
                     </div>
-
+                    <div className="switchbutton">
+                    {!(previous === null) &&<button className="nextbtn" value={previous} onClick={onSwitchPage} >&#8592;Previous</button>}
+                    {!(next === null) && <button className="nextbtn" value={next} onClick={onSwitchPage}>Next&#8594;</button>}
+                        </div>
                 </div>
             </div>
+        </div>
         </div>
     );
 }

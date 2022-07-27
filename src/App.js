@@ -8,6 +8,7 @@ import Admin from './Pages/SignUp/Admin';
 import ShopTable from './Pages/ShopTable';
 import CardTable from './Pages/CardTable';
 import ProductTable from './Pages/ProductTable';
+import StockTable from './Pages/StockTable';
 function App() {
   return (
     <div>
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/ShopTable" element={<ShopTable />} />
           <Route exact path="/CardTable" element={<CardTable />} />
           <Route exact path="/ProductTable" element={<ProductTable />} />
+          <Route exact path="/StockTable" element={<StockTable />} />
         </Routes>
       </BrowserRouter>
     </div>

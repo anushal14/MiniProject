@@ -4,7 +4,7 @@ import axios from "axios";
 function AddProduct({ setNewProduct }) {
     const [values, setValues] = useState({
         name: "",
-        Unit: ""
+        unit: "100"
     });
     const handleChange = (e) => {
         setValues({
@@ -17,7 +17,7 @@ function AddProduct({ setNewProduct }) {
         console.log(values);
         const payload = {
             name: values.name,
-            Unit: values.Unit
+            unit: values.unit
           }
       
           axios({
@@ -32,12 +32,10 @@ function AddProduct({ setNewProduct }) {
             },
           }).then((response) => {
             console.log(response);
-            localStorage.setItem('bearer', response.data.bearer);
-            localStorage.setItem('user-id', response.data.idencode);
             setValues(
                 {
                     name: "",
-                    Unit: ""
+                    unit: ""
                 }
             )
           }
@@ -60,7 +58,11 @@ function AddProduct({ setNewProduct }) {
                     <span style={{ color: "black" }}>Product Name:</span>
                     <input className="popup-input" type="text" name="name" value={values.name} onChange={handleChange} />
                     <span style={{ color: "black" }}>Unit:</span>
-                    <input className="popup-input" type="number" name="Unit" value={values.Unit} onChange={handleChange} />
+                    <select className="popup-select" name="unit" value={values.unit} onChange={handleChange}>
+                        <option value="100">Kilo Gram</option>
+                        <option value="200">Litre</option>
+                        <option value="300">Pack</option>
+                    </select>
                     <button className="popup-buttn" onClick={handleSubmit}>Add</button>
                 </div>
             </div>

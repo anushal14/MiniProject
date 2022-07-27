@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../Components/Sidebar";
-import AddProduct from "../Components/AddProduct";
+import AddStock from "../Components/AddStock";
 import Loading from "../Components/Loading";
 import './Dashboard.css';
-function ProductTable() {
-    const [product, setProduct] = useState([])
+function StockTable() {
+    const [stock, setStock] = useState([])
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
     const [dashboardLoading, setDashboardLoading] = useState(true);
-    const [newProduct, setNewProduct] = useState(false)
+    const [newStock, setNewStock] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
@@ -17,7 +17,7 @@ function ProductTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/products/`,
+            url: `https://ration-master.herokuapp.com/supply/stock/?shop=&product=`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -25,8 +25,8 @@ function ProductTable() {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            console.log('Product', response)
-            setProduct(response.data.results);
+            console.log('Stock', response)
+            setStock(response.data.results);
             setNext(response.data.next);
             setPrevious(response.data.previous);
             setDashboardLoading(false)
@@ -36,7 +36,7 @@ function ProductTable() {
                 console.log('error', error.response.data)
 
             })
-    }, [newProduct])
+    }, [newStock])
 
     const onSwitchPage = (e) => {
         axios({
@@ -49,8 +49,8 @@ function ProductTable() {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            console.log('Product', response)
-            setProduct(response.data.results);
+            console.log('Stock', response)
+            setStock(response.data.results);
             setNext(response.data.next);
             setPrevious(response.data.previous);
             setDashboardLoading(false)
@@ -60,15 +60,6 @@ function ProductTable() {
                 console.log('error', error.response.data)
 
             })
-        }
-
-        const findUnit=(unitId)=>{
-            if(unitId===100)
-            return "Kilogram"
-            else if(unitId===200)
-            return "Litre"
-            else 
-            return "Pack"
         }
 
     return (
@@ -91,10 +82,10 @@ function ProductTable() {
                 </div>
                
                 <div class="cards">
-                    <div class="card" onClick={() => setNewProduct(true)}>
+                    <div class="card" onClick={() => setNewStock(true)}>
                         <div class="card-content">
                             <div class="number">&#43;</div>
-                            <div class="card-name">New Product</div>
+                            <div class="card-name">New Stock</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-briefcase-medical"></i>
@@ -128,22 +119,23 @@ function ProductTable() {
                         </div>
                     </div> */}
                 </div>
-                <h3 style={{color:"#060082",marginLeft:"20px",marginBottom:"10px"}}>Product Details</h3>
+                <h3 style={{color:"#060082",marginLeft:"20px",marginBottom:"10px"}}>Stock Details</h3>
                 <div class="tables">
                     <div class="last-appointments">
 
                         <table class="appointments">
                             <thead>
+                            <td>Shop Name</td>
                                 <td>Product Name</td>
-                                <td>Unit</td>
+                                <td>Quantity</td>
 
                             </thead>
                             <tbody>
-                                {product.map((product) => (
-                                    <tr key={product.idencode}>
-                                        <td >{product.name}</td>
-                                        <td>{findUnit(product.unit)}</td>
-
+                                {stock.map((stock) => (
+                                    <tr key={stock.idencode}>
+                                        <td >{stock.shop.first_name}</td>
+                                        <td>{stock.product.name}</td>
+                                        <td>{stock.quantity}</td>
                                     </tr>
                                 ))}
 
@@ -154,7 +146,7 @@ function ProductTable() {
                     {!(previous === null) &&<button className="nextbtn" value={previous} onClick={onSwitchPage} >&#8592;Previous</button>}
                     {!(next === null) && <button className="nextbtn" value={next} onClick={onSwitchPage}>Next&#8594;</button>}
                         </div>
-                    {newProduct && <AddProduct setNewProduct={setNewProduct} />}
+                    {newStock && <AddStock setNewStock={setNewStock} />}
                 </div>
             </div>
             </div>
@@ -162,4 +154,4 @@ function ProductTable() {
     );
 }
 
-export default ProductTable;
+export default StockTable;

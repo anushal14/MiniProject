@@ -5,6 +5,8 @@ import './Dashboard.css';
 import Loading from "../Components/Loading";
 function ShopTable() {
     const [shop, setShop] = useState([])
+    const [next, setNext] = useState("");
+    const [previous, setPrevious] = useState("");
     const [dashboardLoading, setDashboardLoading] = useState(true);
     const [verify, setVerify] = useState(false)
     window.history.pushState(null, null, window.location.href);
@@ -24,6 +26,8 @@ function ShopTable() {
         }).then((response) => {
             console.log('shopData', response)
             setShop(response.data.results);
+            setNext(response.data.next);
+            setPrevious(response.data.previous);
             setDashboardLoading(false)
         }
         )
@@ -33,13 +37,13 @@ function ShopTable() {
             })
     }, [verify])
 
-    const switchTable=()=>{
+    const switchTable = () => {
         setDashboardLoading(true)
         setVerify(!verify)
     }
 
     const ShopVerify = (id) => {
-            setVerify(true)
+        setVerify(true)
         axios({
             method: 'patch',
             url: `https://ration-master.herokuapp.com/accounts/verify/shop/${id}/`,
@@ -51,7 +55,7 @@ function ShopTable() {
             },
         }).then((response) => {
             console.log('shopData', response)
-            
+
         }
         )
             .catch((error) => {
@@ -59,8 +63,53 @@ function ShopTable() {
 
             })
     }
+    const ShopDelete = (id) => {
+        axios({
+            method: 'patch',
+            url: `https://ration-master.herokuapp.com/accounts/delete/shop/${id}/`,
+            headers: {
+                //  'Authorization': `bearer ${token}`,
+                'bearer': localStorage.getItem('bearer'),
+                'user-id': localStorage.getItem('user-id'),
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            console.log('shopData', response)
+
+        }
+        )
+            .catch((error) => {
+                console.log('error', error.response.data)
+
+            })
+    }
+
+    const onSwitchPage = (e) => {
+        axios({
+            method: 'get',
+            url: e.target.value,
+            headers: {
+                //  'Authorization': `bearer ${token}`,
+                'bearer': localStorage.getItem('bearer'),
+                'user-id': localStorage.getItem('user-id'),
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            console.log('shopData', response)
+            setShop(response.data.results);
+            setNext(response.data.next);
+            setPrevious(response.data.previous);
+            setDashboardLoading(false)
+        }
+        )
+            .catch((error) => {
+                console.log('error', error.response.data)
+
+            })
+        }
+
     return (<div>
-        {dashboardLoading && <Loading/>}
+        {dashboardLoading && <Loading />}
         <div class="container">
             <Sidebar />
             <div class="main">
@@ -75,7 +124,7 @@ function ShopTable() {
                     </div>
                 </div>
                 <div class="cards">
-                    <div class="card" onClick={switchTable} style={{border:verify?"":"2px solid green"}}>
+                    <div class="card" onClick={switchTable} style={{ border: verify ? "" : "2px solid green" }}>
                         <div class="card-content">
                             <div class="number">67</div>
                             <div class="card-name">Non-Verified</div>
@@ -84,7 +133,7 @@ function ShopTable() {
                             <i class="fas fa-briefcase-medical"></i>
                         </div>
                     </div>
-                    <div class="card" onClick={switchTable} style={{border:verify?"2px solid green":""}}>
+                    <div class="card" onClick={switchTable} style={{ border: verify ? "2px solid green" : "" }}>
                         <div class="card-content">
                             <div class="number">105</div>
                             <div class="card-name">Verified</div>
@@ -112,7 +161,9 @@ function ShopTable() {
                         </div>
                     </div> */}
                 </div>
+                <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Shop Details</h3>
                 <div class="tables">
+
                     <div class="last-appointments">
 
                         <table class="appointments">
@@ -126,28 +177,33 @@ function ShopTable() {
                                 {!verify && <td>Actions</td>}
                             </thead>
                             <tbody>
-                            {shop.map((shop) => (
-                        <tr key={shop.idencode}>
-                            <td >{shop.first_name}</td>
-                            <td>{shop.location}</td>
-                            <td >{shop.employee_name}</td>
-                            <td >{shop.employee_id}</td>
-                            <td >{shop.email}</td>
-                            <td >{shop.mobile}</td>
-                            {!verify && <td><button style={{marginRight:"10px"}}  onClick={() => ShopVerify(shop.idencode)}>&#9989;</button>
-                            <button>&#10060;</button></td>}
+                                {shop.map((shop) => (
+                                    <tr key={shop.idencode}>
+                                        <td >{shop.first_name}</td>
+                                        <td>{shop.location}</td>
 
-                        </tr>
-                    ))}
+                                        <td >{shop.employee_id}</td>
+                                        <td >{shop.employee_name}</td>
+                                        <td >{shop.email}</td>
+                                        <td >{shop.mobile}</td>
+                                        {!verify && <td><button style={{ marginRight: "10px" }} onClick={() => ShopVerify(shop.idencode)}>&#9989;</button>
+                                            <button onClick={() => ShopDelete(shop.idencode)}>&#10060;</button></td>}
+
+                                    </tr>
+                                ))}
 
                             </tbody>
                         </table>
+                      
                     </div>
-
+                    <div className="switchbutton">
+                    {!(previous === null) &&<button className="nextbtn" value={previous} onClick={onSwitchPage} >&#8592;Previous</button>}
+                    {!(next === null) && <button className="nextbtn" value={next} onClick={onSwitchPage}>Next&#8594;</button>}
+                        </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     );
 }
 
