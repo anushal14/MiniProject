@@ -19,12 +19,12 @@ function Sidebar() {
                         <div class="title">VQ Ration</div>
                     </a>
                 </li>
-                <li>
+                {/* <li>
                     <a href="">
                         <i class="fas fa-th-large"></i>
                         <div class="title">Dashboard</div>
                     </a>
-                </li>
+                </li> */}
                 <li onClick={()=>navigate(`/CardTable`)}>
                     <a href="">
                         <i class="fas fa-stethoscope"></i>
@@ -43,18 +43,19 @@ function Sidebar() {
                         <div class="title">Products</div>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <div class="title">Payments</div>
-                    </a>
-                </li>
                 <li onClick={()=>navigate(`/StockTable`)}>
                     <a href="#">
                         <i class="fas fa-cog"></i>
                         <div class="title">Stock</div>
                     </a>
                 </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div class="title">Payments</div>
+                    </a>
+                </li>
+                
                 <li>
                     <a href="#">
                         <i class="fas fa-question"></i>

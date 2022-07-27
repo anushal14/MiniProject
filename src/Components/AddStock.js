@@ -8,6 +8,7 @@ function AddStock({ setNewStock }) {
         quantity: ""
     });
     const [dropdownProduct, setDropdownProduct] = useState([])
+    const [dropdownShop, setDropdownShop] = useState([])
     useEffect(()=>{
         axios({
             method: 'get',
@@ -28,6 +29,26 @@ function AddStock({ setNewStock }) {
                 console.log('error', error.response.data)
 
             })
+
+            axios({
+                method: 'get',
+                url: `https://ration-master.herokuapp.com/accounts/list/shop/?location=&verified=true&limit=100`,
+                headers: {
+                    //  'Authorization': `bearer ${token}`,
+                    'bearer': localStorage.getItem('bearer'),
+                    'user-id': localStorage.getItem('user-id'),
+                    'Content-Type': 'application/json'
+                },
+            }).then((response) => {
+                console.log('Shop', response)
+                setDropdownShop(response.data.results);
+                setValues({...values,shop:response.data.results[0].idencode})
+            }
+            )
+                .catch((error) => {
+                    console.log('error', error.response.data)
+    
+                })
     },[])
     const handleChange = (e) => {
         setValues({
@@ -88,8 +109,8 @@ function AddStock({ setNewStock }) {
                     </select>
                     <span style={{ color: "black" }}>Shop:</span>
                     <select className="popup-select" name="shop" value={values.shop} onChange={handleChange}>
-                    {dropdownProduct.map((prod)=>(
-                            <option value={prod.idencode} key={prod.idencode}>{prod.name}</option>
+                    {dropdownShop.map((shop)=>(
+                            <option value={shop.idencode} key={shop.idencode}>{shop.first_name}</option>
                         ))}
                     </select>
                     <span style={{ color: "black" }}>Quantity:</span>

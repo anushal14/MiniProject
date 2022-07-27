@@ -6,6 +6,11 @@ import Loading from "../Components/Loading";
 import './Dashboard.css';
 function StockTable() {
     const [stock, setStock] = useState([])
+    const [quantity,setQuantity]= useState({
+        QValue:"",
+        id:"",
+        stockQuant:""
+    })
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
     const [dashboardLoading, setDashboardLoading] = useState(true);
@@ -36,7 +41,7 @@ function StockTable() {
                 console.log('error', error.response.data)
 
             })
-    }, [newStock])
+    }, [newStock,()=>handleSubmit])
 
     const onSwitchPage = (e) => {
         axios({
@@ -60,38 +65,82 @@ function StockTable() {
                 console.log('error', error.response.data)
 
             })
+    }
+    const findUnit = (unitId) => {
+        if (unitId === 100)
+            return "Kilogram"
+        else if (unitId === 200)
+            return "Litre"
+        else
+            return "Pack"
+    }
+    const handleChange=(e,id,stockQuant)=>{
+        setQuantity({[e.target.name]: e.target.value,id,stockQuant})
+
+    }
+    const handleSubmit=()=>{
+        console.log(quantity)
+        const payload = {
+            quantity: parseFloat(quantity.QValue)+parseFloat(quantity.stockQuant)
         }
+
+        axios({
+            method: 'patch',
+            url: `https://ration-master.herokuapp.com/supply/stock/${quantity.id}/`,
+            data: payload,
+            headers: {
+                //  'Authorization': `bearer ${token}`,
+                'bearer': localStorage.getItem('bearer'),
+                'user-id': localStorage.getItem('user-id'),
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            console.log(response);
+            setQuantity({
+                QValue:"",
+                id:"",
+                stockQuant:""
+            })
+        }
+        )
+            .catch((error) => {
+                console.log('error', error.response.data)
+                //   setError(error.response.data)
+
+            })
+        
+    }
 
     return (
         <div>
             {dashboardLoading && <Loading />}
-        <div class="container">
-            
-            <Sidebar />
+            <div class="container">
 
-            <div class="main">
-                <div class="top-bar">
-                    <div class="search">
-                        <input type="text" name="search" placeholder="search here" />
-                        <label for="search"><i class="fas fa-search"></i></label>
-                    </div>
-                    <i class="fas fa-bell"></i>
-                    <div class="user">
-                        <img src="doctor1.png" alt="" />
-                    </div>
-                </div>
-               
-                <div class="cards">
-                    <div class="card" onClick={() => setNewStock(true)}>
-                        <div class="card-content">
-                            <div class="number">&#43;</div>
-                            <div class="card-name">New Stock</div>
+                <Sidebar />
+
+                <div class="main">
+                    <div class="top-bar">
+                        <div class="search">
+                            <input type="text" name="search" placeholder="search here" />
+                            <label for="search"><i class="fas fa-search"></i></label>
                         </div>
-                        <div class="icon-box">
-                            <i class="fas fa-briefcase-medical"></i>
+                        <i class="fas fa-bell"></i>
+                        <div class="user">
+                            <img src="doctor1.png" alt="" />
                         </div>
                     </div>
-                    {/* <div class="card">
+
+                    <div class="cards">
+                        <div class="card" onClick={() => setNewStock(true)}>
+                            <div class="card-content">
+                                <div class="number">&#43;</div>
+                                <div class="card-name">New Stock</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-briefcase-medical"></i>
+                            </div>
+                        </div>
+                        {/* <div class="card">
                         <div class="card-content">
                         <div class="number">67</div>
                             <div class="card-name">ertreg</div>
@@ -118,37 +167,42 @@ function StockTable() {
                             <i class="fas fa-dollar-sign"></i>
                         </div>
                     </div> */}
-                </div>
-                <h3 style={{color:"#060082",marginLeft:"20px",marginBottom:"10px"}}>Stock Details</h3>
-                <div class="tables">
-                    <div class="last-appointments">
-
-                        <table class="appointments">
-                            <thead>
-                            <td>Shop Name</td>
-                                <td>Product Name</td>
-                                <td>Quantity</td>
-
-                            </thead>
-                            <tbody>
-                                {stock.map((stock) => (
-                                    <tr key={stock.idencode}>
-                                        <td >{stock.shop.first_name}</td>
-                                        <td>{stock.product.name}</td>
-                                        <td>{stock.quantity}</td>
-                                    </tr>
-                                ))}
-
-                            </tbody>
-                        </table>
                     </div>
-                    <div className="switchbutton">
-                    {!(previous === null) &&<button className="nextbtn" value={previous} onClick={onSwitchPage} >&#8592;Previous</button>}
-                    {!(next === null) && <button className="nextbtn" value={next} onClick={onSwitchPage}>Next&#8594;</button>}
+                    <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Stock Details</h3>
+                    <div class="tables">
+                        <div class="last-appointments">
+
+                            <table class="appointments">
+                                <thead>
+                                    <td>Shop Name</td>
+                                    <td>Product Name</td>
+                                    <td>Quantity</td>
+                                    <td>Update</td>
+
+                                </thead>
+                                <tbody>
+                                    {stock.map((stock) => (
+                                        <tr key={stock.idencode}>
+                                            <td >{stock.shop.first_name}</td>
+                                            <td>{stock.product.name}</td>
+                                            <td>{stock.quantity} {findUnit(stock.product.unit)}</td>
+                                            <td><div class="input-container">
+                                                <input onChange={(e) => {handleChange(e,stock.idencode,stock.quantity)}} name="QValue" type="number" value={quantity.id===stock.idencode?quantity.QValue:""} style={{width:"50px",height:"20px",border:"1px solid black"}} />
+                                                <button onClick={handleSubmit} style={{width:"22px",height:"22px",background:"white",fontWeight:"bolder"}}>&#43;</button>
+                                            </div></td>
+                                        </tr>
+                                    ))}
+
+                                </tbody>
+                            </table>
                         </div>
-                    {newStock && <AddStock setNewStock={setNewStock} />}
+                        <div className="switchbutton">
+                            {!(previous === null) && <button className="nextbtn" value={previous} onClick={onSwitchPage} >&#8592;Previous</button>}
+                            {!(next === null) && <button className="nextbtn" value={next} onClick={onSwitchPage}>Next&#8594;</button>}
+                        </div>
+                        {newStock && <AddStock setNewStock={setNewStock} />}
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     );
