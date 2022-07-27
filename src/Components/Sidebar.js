@@ -49,10 +49,10 @@ function Sidebar() {
                         <div class="title">Stock</div>
                     </a>
                 </li>
-                <li>
+                <li onClick={()=>navigate(`/QuotaTable`)}>
                     <a href="#">
                         <i class="fas fa-hand-holding-usd"></i>
-                        <div class="title">Payments</div>
+                        <div class="title">Ration</div>
                     </a>
                 </li>
                 

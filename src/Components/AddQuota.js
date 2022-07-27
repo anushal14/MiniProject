@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
 import axios from "axios";
-function AddStock({ setNewStock }) {
+function AddQuota({ setNewQuota }) {
     const [values, setValues] = useState({
         product: "",
-        shop: "",
-        quantity: ""
+        card_type: "100",
+        age_group:"100",
+        quantity: "",
+        date:""
     });
     const [dropdownProduct, setDropdownProduct] = useState([])
-    const [dropdownShop, setDropdownShop] = useState([])
     useEffect(()=>{
         axios({
             method: 'get',
@@ -29,26 +30,6 @@ function AddStock({ setNewStock }) {
                 console.log('error', error.response.data)
 
             })
-
-            axios({
-                method: 'get',
-                url: `https://ration-master.herokuapp.com/accounts/list/shop/?location=&verified=true&limit=100`,
-                headers: {
-                    //  'Authorization': `bearer ${token}`,
-                    'bearer': localStorage.getItem('bearer'),
-                    'user-id': localStorage.getItem('user-id'),
-                    'Content-Type': 'application/json'
-                },
-            }).then((response) => {
-                console.log('Shop', response)
-                setDropdownShop(response.data.results);
-                setValues({...values,shop:response.data.results[0].idencode})
-            }
-            )
-                .catch((error) => {
-                    console.log('error', error.response.data)
-    
-                })
     },[])
     const handleChange = (e) => {
         setValues({
@@ -61,13 +42,15 @@ function AddStock({ setNewStock }) {
         console.log(values);
         const payload = {
             product: values.product,
-            shop: values.shop,
-            quantity: values.quantity
+            card_type: values.card_type,
+            age_group:values.age_group,
+            quantity: values.quantity,
+            date:values.date
         }
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/stock/`,
+            url: `https://ration-master.herokuapp.com/supply/quota/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,
@@ -80,8 +63,10 @@ function AddStock({ setNewStock }) {
             setValues(
                 {
                     product: "",
-                    shop: "",
-                    quantity:""
+                    card_type: "100",
+                    age_group:"100",
+                    quantity: "",
+                    date:""
                 }
             )
         }
@@ -98,8 +83,8 @@ function AddStock({ setNewStock }) {
 
         <div id="popup1" class="overlay">
             <div class="popup">
-                <h2>Add Stock</h2>
-                <a class="close" href="#" onClick={() => setNewStock(false)}>&times;</a>
+                <h2>Add Ration</h2>
+                <a class="close" href="#" onClick={() => setNewQuota(false)}>&times;</a>
                 <div class="content">
                     <span style={{ color: "black" }}>Product:</span>
                     <select className="popup-select" name="product" value={values.product} onChange={handleChange}>
@@ -107,14 +92,22 @@ function AddStock({ setNewStock }) {
                             <option value={prod.idencode} key={prod.idencode}>{prod.name}</option>
                         ))}
                     </select>
-                    <span style={{ color: "black" }}>Shop:</span>
-                    <select className="popup-select" name="shop" value={values.shop} onChange={handleChange}>
-                    {dropdownShop.map((shop)=>(
-                            <option value={shop.idencode} key={shop.idencode}>{shop.first_name}</option>
-                        ))}
+                    <span style={{ color: "black" }}>Card Type:</span>
+                    <select className="popup-select" name="card_type" value={values.card_type} onChange={handleChange}>
+                            <option value="100">Yellow</option>
+                            <option value="200">Pink</option>
+                            <option value="300">White</option>
+                            <option value="400">Blue</option>
+                    </select>
+                    <span style={{ color: "black" }}>Age Group:</span>
+                    <select className="popup-select" name="age_group" value={values.age_group} onChange={handleChange}>
+                            <option value="100">Adult</option>
+                            <option value="200">Child</option>
                     </select>
                     <span style={{ color: "black" }}>Quantity:</span>
                     <input className="popup-input" type="number" name="quantity" value={values.quantity} onChange={handleChange} />
+                    <span style={{ color: "black" }}>Quantity:</span>
+                    <input className="popup-input" type="date" name="date" value={values.date} onChange={handleChange} />
                     <button className="popup-buttn" onClick={handleSubmit}>Add</button>
                 </div>
             </div>
@@ -122,4 +115,4 @@ function AddStock({ setNewStock }) {
     );
 }
 
-export default AddStock;
+export default AddQuota;

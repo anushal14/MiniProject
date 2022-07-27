@@ -9,6 +9,7 @@ import ShopTable from './Pages/ShopTable';
 import CardTable from './Pages/CardTable';
 import ProductTable from './Pages/ProductTable';
 import StockTable from './Pages/StockTable';
+import QuotaTable from './Pages/QuotaTable';
 function App() {
   return (
     <div>
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/CardTable" element={<CardTable />} />
           <Route exact path="/ProductTable" element={<ProductTable />} />
           <Route exact path="/StockTable" element={<StockTable />} />
+          <Route exact path="/QuotaTable" element={<QuotaTable />} />
         </Routes>
       </BrowserRouter>
     </div>

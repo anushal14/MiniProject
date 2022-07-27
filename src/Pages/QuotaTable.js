@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../Components/Sidebar";
-import AddStock from "../Components/AddStock";
+import AddQuota from "../Components/AddQuota";
 import Loading from "../Components/Loading";
 import './Dashboard.css';
-function StockTable() {
-    const [stock, setStock] = useState([])
+function QuotaTable() {
+    const [quota, setQuota] = useState([])
     const [quantity,setQuantity]= useState({
         QValue:"",
         id:"",
-        stockQuant:""
+        quotaQuant:""
     })
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
     const [dashboardLoading, setDashboardLoading] = useState(true);
-    const [newStock, setNewStock] = useState(false)
+    const [newQuota, setNewQuota] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
@@ -22,7 +22,7 @@ function StockTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/stock/?shop=&product=`,
+            url: `https://ration-master.herokuapp.com/supply/quota/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -30,8 +30,8 @@ function StockTable() {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            console.log('Stock', response)
-            setStock(response.data.results);
+            console.log('Quota', response)
+            setQuota(response.data.results);
             setNext(response.data.next);
             setPrevious(response.data.previous);
             setDashboardLoading(false)
@@ -41,7 +41,7 @@ function StockTable() {
                 console.log('error', error.response.data)
 
             })
-    }, [newStock])
+    }, [newQuota])
 
     const onSwitchPage = (e) => {
         axios({
@@ -54,8 +54,8 @@ function StockTable() {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            console.log('Stock', response)
-            setStock(response.data.results);
+            console.log('Quota', response)
+            setQuota(response.data.results);
             setNext(response.data.next);
             setPrevious(response.data.previous);
             setDashboardLoading(false)
@@ -66,27 +66,30 @@ function StockTable() {
 
             })
     }
-    const findUnit = (unitId) => {
-        if (unitId === 100)
-            return "Kilogram"
-        else if (unitId === 200)
-            return "Litre"
+    const findCardType = (type) => {
+        if (type === 100)
+            return "Yellow"
+        else if (type === 200)
+            return "Pink"
+        else if (type === 300)
+            return "White"
         else
-            return "Pack"
+            return "Blue"
     }
-    const handleChange=(e,id,stockQuant)=>{
-        setQuantity({[e.target.name]: e.target.value,id,stockQuant})
+    const handleChange=(e,id,quotaQuant)=>{
+        setQuantity({[e.target.name]: e.target.value,id,quotaQuant})
 
     }
     const handleSubmit=()=>{
         console.log(quantity)
         const payload = {
-            quantity: parseFloat(quantity.QValue)+parseFloat(quantity.stockQuant)
+            // quantity: parseFloat(quantity.QValue)+parseFloat(quantity.quotaQuant)
+            quantity:quantity.QValue
         }
 
         axios({
             method: 'patch',
-            url: `https://ration-master.herokuapp.com/supply/stock/${quantity.id}/`,
+            url: `https://ration-master.herokuapp.com/supply/quota/${quantity.id}/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,
@@ -99,7 +102,7 @@ function StockTable() {
             setQuantity({
                 QValue:"",
                 id:"",
-                stockQuant:""
+                quotaQuant:""
             })
         }
         )
@@ -109,6 +112,14 @@ function StockTable() {
 
             })
         
+    }
+    const findUnit = (unitId) => {
+        if (unitId === 100)
+            return "Kilogram"
+        else if (unitId === 200)
+            return "Litre"
+        else
+            return "Pack"
     }
 
     return (
@@ -131,10 +142,10 @@ function StockTable() {
                     </div>
 
                     <div class="cards">
-                        <div class="card" onClick={() => setNewStock(true)}>
+                        <div class="card" onClick={() => setNewQuota(true)}>
                             <div class="card-content">
                                 <div class="number">&#43;</div>
-                                <div class="card-name">New Stock</div>
+                                <div class="card-name">New Ration</div>
                             </div>
                             <div class="icon-box">
                                 <i class="fas fa-briefcase-medical"></i>
@@ -168,27 +179,30 @@ function StockTable() {
                         </div>
                     </div> */}
                     </div>
-                    <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Stock Details</h3>
+                    <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Ration Details</h3>
                     <div class="tables">
                         <div class="last-appointments">
 
                             <table class="appointments">
                                 <thead>
-                                    <td>Shop Name</td>
                                     <td>Product Name</td>
                                     <td>Quantity</td>
+                                    <td>Card Type</td>
+                                    <td>Age Group</td>
                                     <td>Update</td>
 
                                 </thead>
                                 <tbody>
-                                    {stock.map((stock) => (
-                                        <tr key={stock.idencode}>
-                                            <td >{stock.shop.first_name}</td>
-                                            <td>{stock.product.name}</td>
-                                            <td>{stock.quantity} {findUnit(stock.product.unit)}</td>
+                                    {quota.map((quota) => (
+                                        <tr key={quota.idencode}>
+                                            <td>{quota.product.name}</td>
+                                            <td>{quota.quantity} {findUnit(quota.product.unit)}</td>
+                                            <td>{findCardType(quota.card_type)}</td>
+                                            <td>{quota.age_group===100?"Adlut":"Child"}</td>
+                                            
                                             <td><div class="input-container">
-                                                <input onChange={(e) => {handleChange(e,stock.idencode,stock.quantity)}} name="QValue" type="number" value={quantity.id===stock.idencode?quantity.QValue:""} style={{width:"50px",height:"20px",border:"1px solid black"}} />
-                                                <button onClick={handleSubmit} style={{width:"22px",height:"22px",background:"white",fontWeight:"bolder"}}>&#43;</button>
+                                                <input onChange={(e) => {handleChange(e,quota.idencode,quota.quantity)}} name="QValue" type="number" value={quantity.id===quota.idencode?quantity.QValue:""} style={{width:"50px",height:"20px",border:"1px solid black"}} />
+                                                <button onClick={handleSubmit} style={{width:"22px",height:"22px",background:"white",fontWeight:"bolder"}}>&#x21bb;</button>
                                             </div></td>
                                         </tr>
                                     ))}
@@ -200,7 +214,7 @@ function StockTable() {
                             {!(previous === null) && <button className="nextbtn" value={previous} onClick={onSwitchPage} >&#8592;Previous</button>}
                             {!(next === null) && <button className="nextbtn" value={next} onClick={onSwitchPage}>Next&#8594;</button>}
                         </div>
-                        {newStock && <AddStock setNewStock={setNewStock} />}
+                        {newQuota && <AddQuota setNewQuota={setNewQuota} />}
                     </div>
                 </div>
             </div>
@@ -208,4 +222,4 @@ function StockTable() {
     );
 }
 
-export default StockTable;
+export default QuotaTable;
