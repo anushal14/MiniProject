@@ -54,9 +54,14 @@ function ShopLogin() {
             })
        
     }
-    if (responseData.bearer) {
+    if (responseData.bearer && responseData.type===100) {
         return <div>
           <Navigate to='/ShopTable' />
+        </div>
+      }
+     else if (responseData.bearer && responseData.type===200) {
+        return <div>
+          <Navigate to='/ShopDashboard' />
         </div>
       }
     return (

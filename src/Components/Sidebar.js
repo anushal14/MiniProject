@@ -25,16 +25,17 @@ function Sidebar() {
                         <div class="title">Dashboard</div>
                     </a>
                 </li> */}
-                <li onClick={()=>navigate(`/CardTable`)}>
-                    <a href="">
-                        <i class="fas fa-stethoscope"></i>
-                        <div class="title">Card</div>
-                    </a>
-                </li>
+              
                 <li onClick={()=>navigate(`/ShopTable`)}>
                     <a href="">
                         <i class="fas fa-user-md"></i>
                         <div class="title">Shop</div>
+                    </a>
+                </li>
+                <li onClick={()=>navigate(`/CardTable`)}>
+                    <a href="">
+                        <i class="fas fa-stethoscope"></i>
+                        <div class="title">Card</div>
                     </a>
                 </li>
                 <li onClick={()=>navigate(`/ProductTable`)}>

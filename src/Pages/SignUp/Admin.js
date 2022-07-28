@@ -70,7 +70,7 @@ function Admin() {
     return (
         <div className="AdminMain">
             <div class="Adminform">
-                <center><Link class="link" style={{ textDecoration: 'none' }} to='/signUpCard'><button class="Switch-login">Sign Up as Card holder</button></Link></center>
+                <center><Link class="link" style={{ textDecoration: 'none' }} to='/signUpCard'><button class="Switch-login">Sign Up as Admin</button></Link></center>
                 <div class="line-breaker">
                     <span class="line"></span>
                     <span>or</span>

@@ -5,6 +5,7 @@ import './Dashboard.css';
 import Loading from "../Components/Loading";
 function CardTable() {
     const [card, setCard] = useState([])
+    const [dashboard,setDashboard] = useState([])
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
     const [dashboardLoading, setDashboardLoading] = useState(true);
@@ -35,6 +36,25 @@ function CardTable() {
                 console.log('error', error.response.data)
 
             })
+            axios({
+                method: 'get',
+                url: `https://ration-master.herokuapp.com/accounts/admin/dashboard/`,
+                headers: {
+                    //  'Authorization': `bearer ${token}`,
+                    'bearer': localStorage.getItem('bearer'),
+                    'user-id': localStorage.getItem('user-id'),
+                    'Content-Type': 'application/json'
+                },
+            }).then((response) => {
+                console.log('Dashboard', response)
+                setDashboard(response.data.data)
+               
+            }
+            )
+                .catch((error) => {
+                    console.log('error', error.response.data)
+    
+                })
     }, [verify])
 
     const switchTable=()=>{
@@ -127,7 +147,7 @@ function CardTable() {
                 <div class="cards">
                 <div class="card" onClick={switchTable} style={{border:verify?"":"2px solid green"}}>
                         <div class="card-content">
-                            <div class="number">67</div>
+                            <div class="number">{dashboard.non_verified_cards}</div>
                             <div class="card-name">Non-Verified</div>
                         </div>
                         <div class="icon-box">
@@ -136,7 +156,7 @@ function CardTable() {
                     </div>
                     <div class="card" onClick={switchTable} style={{border:verify?"2px solid green":""}}>
                         <div class="card-content">
-                            <div class="number">105</div>
+                            <div class="number">{dashboard.verified_cards}</div>
                             <div class="card-name">Verified</div>
                         </div>
                         <div class="icon-box">
