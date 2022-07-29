@@ -33,8 +33,29 @@ function TokenView(props) {
                 console.log('error', error.response.data)
 
             })
-    }, [])
+    }, [props.changeToken])
 
+    const onAction=(e)=>{
+        const payload = {
+            status: e.target.value
+          }
+        axios({
+            method:'patch',
+            url:`https://ration-master.herokuapp.com/supply/token/update/${localStorage.getItem('TokenId')}/`,
+            data: payload,
+            headers:{
+                 //  'Authorization': `bearer ${token}`,
+                 'bearer': localStorage.getItem('bearer'),
+                 'user-id': localStorage.getItem('user-id'),
+                 'Content-Type': 'application/json'
+            },
+        }).then((response)=>{
+            console.log('completed', response)
+        }).catch((error) => {
+            console.log('error', error.response.data)
+
+        })
+    }
     const onLogout = () => {
         navigate(`/`);
         localStorage.clear();
@@ -104,8 +125,8 @@ function TokenView(props) {
                                 </div>
                             </div>
                             <div style={{position: "absolute",bottom:"140px",justifyContent:"space-around"}}>
-                        <button value="300" className="Tokenbtn" style={{background:"red"}} onClick={(e)=>{console.log(e.target.value)}}>Cancel</button>
-                        <button value="200" className="Tokenbtn" style={{background:"rgb(34, 139, 34)"}} onClick={(e)=>{console.log(e.target.value)}}>Complete</button>
+                        <button value="300" className="Tokenbtn" style={{background:"red"}} onClick={onAction}>Cancel</button>
+                        <button value="200" className="Tokenbtn" style={{background:"rgb(34, 139, 34)"}} onClick={onAction}>Complete</button>
                         </div>
                         </div>
                         

@@ -11,6 +11,7 @@ import ProductTable from './Pages/ProductTable';
 import StockTable from './Pages/StockTable';
 import QuotaTable from './Pages/QuotaTable';
 import ShopDashboard from './Pages/Shop/ShopDashboard';
+import CardDashboard from './Pages/Card/CardDashboard';
 function App() {
   return (
     <div>
@@ -27,6 +28,7 @@ function App() {
           <Route exact path="/StockTable" element={<StockTable />} />
           <Route exact path="/QuotaTable" element={<QuotaTable />} />
           <Route exact path="/ShopDashboard" element={<ShopDashboard />} />
+          <Route exact path="/CardDashboard" element={<CardDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

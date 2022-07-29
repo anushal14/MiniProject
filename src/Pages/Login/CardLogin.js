@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link,Navigate } from 'react-router-dom';
 import axios from "axios";
 import './Login.css'
 function CardLogin() {
     const [otp, setOtp] = useState(false);
+    const [responseData, setResponseData] = useState({})
     const [error,setError]=useState("")
     const [values, setValues] = useState({
         card_number: "",
@@ -55,6 +56,9 @@ function CardLogin() {
             console.log(response);
             localStorage.setItem('bearer', response.data.bearer);
             localStorage.setItem('user-id', response.data.idencode);
+            localStorage.setItem('cardNo', response.data.name);
+            localStorage.setItem('cardType', response.data.type);
+            setResponseData(response.data);
             setOtp(false);
             setValues(
                 {
@@ -71,6 +75,11 @@ function CardLogin() {
             })
         
     }
+    if (responseData.bearer && responseData.type===300) {
+        return <div>
+          <Navigate to='/CardDashboard' />
+        </div>
+      }
     return (
         <div class="Homemain">
             <div class="navbar">

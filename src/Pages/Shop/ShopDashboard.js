@@ -6,6 +6,8 @@ import '../Dashboard.css';
 function ShopDashboard() {
     const [dashboard, setDashboard] = useState([])
     const [token,setToken] = useState([])
+    const [status,setStatus] = useState("100")
+    const [changeToken,setChangeToken] = useState(false)
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
     window.history.pushState(null, null, window.location.href);
@@ -36,7 +38,7 @@ function ShopDashboard() {
 
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/token/?shop=&status=100&date=`,
+            url: `https://ration-master.herokuapp.com/supply/token/?shop=${localStorage.getItem('user-id')}&status=${status}&date=`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -55,7 +57,7 @@ function ShopDashboard() {
                 console.log('error', error.response.data)
 
             })
-    }, [])
+    }, [status])
 
     const onSwitchPage = (e) => {
         axios({
@@ -79,14 +81,17 @@ function ShopDashboard() {
 
             })
         }
-
+        const selectToken=(id)=>{
+            localStorage.setItem('TokenId',id)
+            setChangeToken(!changeToken)
+        }
 
     return (
         <div>
             {/* {dashboardLoading && <Loading />} */}
             <div class="container">
 
-                <TokenView />
+                <TokenView changeToken={changeToken}/>
 
                 <div class="main">
                     <div class="top-bar">
@@ -101,7 +106,7 @@ function ShopDashboard() {
                     </div>
 
                     <div class="cards">
-                        <div class="card" >
+                        <div class="card" style={{ border: status==="100" ? "2px solid green" : "" }} onClick={()=>setStatus("100")}>
                             <div class="card-content">
                                 <div class="number">{dashboard.remaining_tokens}</div>
                                 <div class="card-name">Initiated</div>
@@ -110,7 +115,7 @@ function ShopDashboard() {
                                 <i class="fas fa-briefcase-medical"></i>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card" style={{ border: status==="200" ? "2px solid green" : "" }} onClick={()=>setStatus("200")}>
                             <div class="card-content">
                                 <div class="number">{dashboard.completed_tokens}</div>
                                 <div class="card-name">Completed</div>
@@ -119,7 +124,7 @@ function ShopDashboard() {
                                 <i class="fas fa-wheelchair"></i>
                             </div>
                         </div>
-                        <div class="card">
+                        <div class="card" style={{ border: status==="300" ? "2px solid green" : "" }} onClick={()=>setStatus("300")}>
                             <div class="card-content">
                                 <div class="number">{dashboard.canceled_tokens}</div>
                                 <div class="card-name">Cancelled</div>
@@ -152,7 +157,7 @@ function ShopDashboard() {
                                 </thead>
                                 <tbody>
                                 {token.map((token) => (
-                                    <tr key={token.idencode} style={{cursor:"pointer"}}>
+                                    <tr key={token.idencode} style={{cursor:"pointer"}} onClick={()=>selectToken(token.idencode)}>
                                         <td >{token.number}</td>
                                         <td >{token.card.card_number}</td>
                                         <td >{token.card.holder_name}</td>

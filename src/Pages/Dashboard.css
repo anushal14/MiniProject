@@ -295,3 +295,27 @@ li{
       height: 40px;
   }
 }
+
+/* for button glow */
+.neonShadow{
+  /* height:50px;
+  width:100px; */
+  border:none;
+  border-radius:5px;
+  transition:0.3s;
+  background-color:rgba(156, 161, 160,0.3);
+  animation: glow 1s infinite ;
+  transition:0.5s;
+}
+@keyframes glow{
+  /* 0%{
+  box-shadow: 5px 5px 20px rgb(56, 168, 52),-5px -5px 20px rgb(75, 168, 52);}
+   */
+  50%{
+  box-shadow: 5px 5px 20px rgb(81, 95, 224),-5px -5px 20px rgb(81, 91, 224)
+  }
+  100%{
+  box-shadow: 5px 5px 20px rgb(13, 255, 0),-5px -5px 20px rgb(4, 255, 0)
+  }
+}
+
