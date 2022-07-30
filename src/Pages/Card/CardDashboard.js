@@ -131,7 +131,7 @@ function CardDashboard() {
                                 <i class="fas fa-briefcase-medical"></i>
                             </div>
                         </div>}
-                        { tokenData.length!==0 && <div onClick={()=>setNewPurchase(true)} class="card" style={{width:"100px",height:"8px",marginTop:"13px",background:"#4169E1"}}>
+                        { tokenData.length!==0 && tokenData.status===100 && <div onClick={()=>setNewPurchase(true)} class="card" style={{width:"100px",height:"8px",marginTop:"13px",background:"#4169E1"}}>
                             <div class="card-content">
                                 <div class="number" style={{fontSize:"14px",color:"white"}}>Purchase here</div>
                                 <div class="card-name"></div>

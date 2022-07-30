@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import LogoutDialog from "./LogoutDialogue";
 import { useNavigate } from 'react-router-dom';
+import AddHoliday from "./AddHoliday";
+import AddNotice from "./AddNotice";
 function Sidebar() {
     let navigate = useNavigate();
     const [dialogue, setDialogue] = useState(false);
+    const [newHoliday, setNewHoliday] = useState(false);
+    const [newNotice, setNewNotice] = useState(false);
 
     const onLogout = () => {
         navigate(`/`);
@@ -56,6 +60,18 @@ function Sidebar() {
                         <div class="title">Ration</div>
                     </a>
                 </li>
+                <li onClick={()=>setNewHoliday(true)}>
+                    <a href="#">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div class="title">Holiday</div>
+                    </a>
+                </li>
+                <li onClick={()=>setNewNotice(true)}>
+                    <a href="#">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <div class="title">Notice</div>
+                    </a>
+                </li>
                
                 <li style={{ position: "absolute", bottom: "40px" }} onClick={() => setDialogue(true)}>
                     <a href="#">
@@ -65,6 +81,8 @@ function Sidebar() {
                 </li>
             </ul>
             {dialogue && <LogoutDialog onDialog={setDialogue} onLogout={onLogout} />}
+            {newHoliday && <AddHoliday setNewHoliday={setNewHoliday}/>}
+            {newNotice && <AddNotice setNewNotice={setNewNotice}/>}
         </div>
     );
 }
