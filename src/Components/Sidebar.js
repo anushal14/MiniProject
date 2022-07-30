@@ -56,13 +56,7 @@ function Sidebar() {
                         <div class="title">Ration</div>
                     </a>
                 </li>
-                
-                <li>
-                    <a href="#">
-                        <i class="fas fa-question"></i>
-                        <div class="title">Help</div>
-                    </a>
-                </li>
+               
                 <li style={{ position: "absolute", bottom: "40px" }} onClick={() => setDialogue(true)}>
                     <a href="#">
                         <i class="fas fa-question"></i>

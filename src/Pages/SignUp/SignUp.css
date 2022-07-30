@@ -22,7 +22,7 @@
     /* padding: 8px; */
 }
 
-.Adminform input {
+.Adminform input,.Adminform select {
     width: calc(100% / 2 - 80px);
     margin-left: 35px;
     margin-right: 35px;
@@ -40,6 +40,9 @@
 }
 
 .Adminform input:focus {
+    outline: none;
+}
+.Adminform select:focus {
     outline: none;
 }
 

@@ -13,7 +13,7 @@ function Card() {
         mobile: "",
         card_number: "",
         holder_name: "",
-        card_type: ""
+        card_type: "100"
     });
     const handleChange = (e) => {
         setValues({
@@ -78,7 +78,12 @@ function Card() {
                 <input type="number" name="mobile" placeholder="Mobile number" value={values.mobile} onChange={handleChange}/>
                 <input type="email" name="email" placeholder="Email" value={values.email} onChange={handleChange}/>
                 <input type="number" name="card_number" placeholder="Card Number" value={values.card_number} onChange={handleChange}/>
-                <input type="text" name="card_type" placeholder="Card Type" value={values.card_type} onChange={handleChange}/>
+                <select  name="card_type" value={values.card_type} onChange={handleChange}>
+                        <option value="100">Yellow</option>
+                        <option value="200">Pink</option>
+                        <option value="300">White</option>
+                        <option value="400">Blue</option>
+                    </select>
                 <button class="btnn" onClick={handleSubmit}>Register</button>
                 <p class="link">Already have an account?<br /><Link to='/'>Sign In</Link> here</p>
             </div>

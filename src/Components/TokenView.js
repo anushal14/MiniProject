@@ -6,6 +6,7 @@ import axios from "axios";
 function TokenView(props) {
     let navigate = useNavigate();
     const [dialogue, setDialogue] = useState(false);
+    const [showMembers, setShowMembers] = useState(false);
     const [tokenData, setTokenData] = useState([])
     const [tokenDataCard, setTokenDataCard] = useState([])
     const [tokenDataCardMembers, setTokenDataCardMembers] = useState([])
@@ -35,21 +36,22 @@ function TokenView(props) {
             })
     }, [props.changeToken])
 
-    const onAction=(e)=>{
+    const onAction = (e) => {
+        console.log("completed")
         const payload = {
             status: e.target.value
-          }
+        }
         axios({
-            method:'patch',
-            url:`https://ration-master.herokuapp.com/supply/token/update/${localStorage.getItem('TokenId')}/`,
+            method: 'patch',
+            url: `https://ration-master.herokuapp.com/supply/token/update/${localStorage.getItem('TokenId')}/`,
             data: payload,
-            headers:{
-                 //  'Authorization': `bearer ${token}`,
-                 'bearer': localStorage.getItem('bearer'),
-                 'user-id': localStorage.getItem('user-id'),
-                 'Content-Type': 'application/json'
+            headers: {
+                //  'Authorization': `bearer ${token}`,
+                'bearer': localStorage.getItem('bearer'),
+                'user-id': localStorage.getItem('user-id'),
+                'Content-Type': 'application/json'
             },
-        }).then((response)=>{
+        }).then((response) => {
             console.log('completed', response)
         }).catch((error) => {
             console.log('error', error.response.data)
@@ -97,39 +99,60 @@ function TokenView(props) {
                                 <span ></span>
                                 <span >Token No: {tokenData.number}</span>
                             </div>
+                            <div class="card-info">
+                                <span style={{ fontWeight: "400" }}>Mob: {tokenDataCard.mobile}</span>
+                                <span ></span>
+                                {!showMembers && <span ><button onClick={() => setShowMembers(true)} style={{ background: "#0004ffbf", color: "white", width: "110px", padding: "5px", borderRadius: "5px" }} >View Members</button></span>}
+                                {showMembers && <span ><button onClick={() => setShowMembers(false)} style={{ background: "#0004ffbf", color: "white", width: "110px", padding: "5px", borderRadius: "5px" }} >View Products</button></span>}
+                            </div>
                         </div>
                         <div class="card-body">
-                            <div>Mob: {tokenDataCard.mobile}</div>
-                            <div class="item-card">
+                            {!showMembers && <div class="item-card">
                                 <div class="head">
                                     <h3 class="titles">Purchased Products</h3>
                                 </div>
-                                <div class="subtitle">
-                                    {tokenDataPurchase.map((purchase) => (
-                                        <div key={purchase.quantity}>
-                                            <div>{purchase.product.name} ______ {purchase.quantity} {findUnit(purchase.product.unit)}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div class="item-card">
+                                <table class="appointments">
+                                    <thead>
+                                        <td>Product</td>
+                                        <td>Quantity</td>
+
+                                    </thead>
+                                    <tbody>
+                                        {tokenDataPurchase.map((purchase) => (
+                                            <tr key={purchase.quantity}>
+                                                <td>{purchase.product.name}</td>
+                                                <td>{purchase.quantity} {findUnit(purchase.product.unit)}</td>
+                                            </tr>))}
+                                    </tbody>
+                                </table>
+                            </div>}
+                            {showMembers && <div class="item-card">
                                 <div class="head">
                                     <h3 class="titles">Members</h3>
                                 </div>
-                                <div class="subtitle">
-                                {tokenDataCardMembers.map((member) => (
-                        <div key={member.idencode}>
-                            <div>{member.name} - - - {member.age} yrs - - - {member.occupation}</div>
-                        </div>
-                    ))}
-                                </div>
+                                <table class="appointments">
+                                    <thead>
+                                        <td>Name</td>
+                                        <td>Age</td>
+                                        <td>Job</td>
+                                    </thead>
+                                    <tbody>
+                                        {tokenDataCardMembers.map((member) => (
+                                            <tr key={member.idencode}>
+                                                <td>{member.name}</td><td>{member.age} yrs</td><td>{member.occupation}</td>
+                                            </tr>
+                                        ))}
+
+                                    </tbody>
+                                </table>
+
+                            </div>}
+                            <div style={{ position: "absolute", bottom: "140px", justifyContent: "space-around" }}>
+                                <button value="300" className="Tokenbtn" style={{ background: "red" }} onClick={onAction}>Cancel</button>
+                                <button value="200" className="Tokenbtn" style={{ background: "rgb(34, 139, 34)" }} onClick={onAction}>Complete</button>
                             </div>
-                            <div style={{position: "absolute",bottom:"140px",justifyContent:"space-around"}}>
-                        <button value="300" className="Tokenbtn" style={{background:"red"}} onClick={onAction}>Cancel</button>
-                        <button value="200" className="Tokenbtn" style={{background:"rgb(34, 139, 34)"}} onClick={onAction}>Complete</button>
                         </div>
-                        </div>
-                        
+
                     </div>
                 </div>
                 <li style={{ position: "absolute", bottom: "40px" }} onClick={() => setDialogue(true)}>

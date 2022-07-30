@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CardView from "../../Components/CardView";
+import CreatToken from "../../Components/CreateToken";
+import CreatPurchase from "../../Components/CreatePurchase";
 import Loading from "../../Components/Loading";
 import '../Dashboard.css';
 function CardDashboard() {
-    const [next, setNext] = useState("");
-    const [previous, setPrevious] = useState("");
+    const [availableQuota,setAvailableQuota]= useState([])
+    const [dashboardLoading, setDashboardLoading] = useState(true)
     const [tokenData, setTokenData] = useState([])
-    const [tokenDataCard, setTokenDataCard] = useState([])
-    const [tokenDataCardMembers, setTokenDataCardMembers] = useState([])
     const [tokenDataPurchase, setTokenDataPurchase] = useState([])
+    const [tokenDataAvailable, setTokenDataAvailable] = useState([])
+    const [itemType,setItemType]= useState("available")
+    const[newToken,setNewToken]=useState(false)
+    const [newPurchase,setNewPurchase]=useState(false)
 
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
@@ -28,10 +32,10 @@ function CardDashboard() {
         }).then((response) => {
             console.log('Active token', response)
             setTokenData(response.data)
-            setTokenDataCard(response.data.card)
             setTokenDataPurchase(response.data.purchase)
-            setTokenDataCardMembers(response.data.card.members)
-
+            setTokenDataAvailable(response.data.available)
+            localStorage.setItem('activeToken',response.data.idencode)
+            setDashboardLoading(false)
         }
         )
             .catch((error) => {
@@ -39,7 +43,27 @@ function CardDashboard() {
 
             })
 
-    }, [])
+            axios({
+                method: 'get',
+                url: `https://ration-master.herokuapp.com/accounts/get/card/${localStorage.getItem('user-id')}/`,
+                headers: {
+                    //  'Authorization': `bearer ${token}`,
+                    'bearer': localStorage.getItem('bearer'),
+                    'user-id': localStorage.getItem('user-id'),
+                    'Content-Type': 'application/json'
+                },
+            }).then((response) => {
+                console.log('Card Details1', response)
+                setAvailableQuota(response.data.available_quota)
+                
+            }
+            )
+                .catch((error) => {
+                    console.log('error', error.response.data)
+    
+                })
+
+    }, [newPurchase,newToken])
 
     const findUnit = (unitId) => {
         if (unitId === 100)
@@ -71,72 +95,124 @@ function CardDashboard() {
 
                     <div class="cards">
                        
-                        <div class="card">
+                        <div onClick={()=>setItemType("available")} class="card" style={{border:itemType==="available"?"2px solid green":""}}>
                             <div class="card-content">
-                                <div class="number">6</div>
-                                <div class="card-name">Members</div>
+                                <div class="number"></div>
+                                <div class="card-name">Available Ration</div>
                             </div>
                             <div class="icon-box">
                                 <i class="fas fa-wheelchair"></i>
                             </div>
                         </div>
-                        <div class="card">
+                        <div onClick={()=>setItemType("purchased")} class="card" style={{border:itemType==="purchased"?"2px solid green":""}}>
                             <div class="card-content">
-                                <div class="number">7</div>
+                                <div class="number"></div>
                                 <div class="card-name">Purchased items</div>
                             </div>
                             <div class="icon-box">
                                 <i class="fas fa-bed"></i>
                             </div>
                         </div>
-                        { tokenData!==null && <div class="card neonShadow" style={{width:"100px",height:"8px"}}>
+                        <div onClick={()=>setItemType("monthly")} class="card" style={{border:itemType==="monthly"?"2px solid green":""}}>
                             <div class="card-content">
-                                {/* <div class="number">4</div> */}
-                                <div class="card-name">Create Token</div>
+                                <div class="number"></div>
+                                <div class="card-name">View My Ration</div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-wheelchair"></i>
+                            </div>
+                        </div>
+                        { tokenData.length===0 && <div onClick={()=>setNewToken(true)} class="card neonShadow" style={{width:"100px",height:"8px",marginTop:"13px"}}>
+                            <div class="card-content">
+                                <div class="number" style={{fontSize:"17px"}}>Create Token</div>
+                                <div class="card-name"></div>
                             </div>
                             <div class="icon-box">
                                 <i class="fas fa-briefcase-medical"></i>
                             </div>
                         </div>}
-                        {/* <div class="card">
-                        <div class="card-content">
-                        <div class="number">67</div>
-                            <div class="card-name">retrtert</div>
-                        </div>
-                        <div class="icon-box">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                    </div> */}
+                        { tokenData.length!==0 && <div onClick={()=>setNewPurchase(true)} class="card" style={{width:"100px",height:"8px",marginTop:"13px",background:"#4169E1"}}>
+                            <div class="card-content">
+                                <div class="number" style={{fontSize:"14px",color:"white"}}>Purchase here</div>
+                                <div class="card-name"></div>
+                            </div>
+                            <div class="icon-box">
+                                <i class="fas fa-briefcase-medical"></i>
+                            </div>
+                        </div>}
                     </div>
-                    <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Token Details</h3>
+
+                    {itemType==="monthly" && <>
+                    <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Current Month Ration</h3>
                     <div class="tables">
                         <div class="last-appointments">
 
                             <table class="appointments">
                                 <thead>
-                                    <td>Token Number</td>
-                                    <td>Card Number</td>
-                                    <td>Card Owner</td>
-                                    <td>Time</td>
+                                    <td>Product</td>
+                                    <td>Quantity</td>
 
                                 </thead>
                                 <tbody>
-                                {tokenDataPurchase.map((purchase) => (
-                                        <div key={purchase.quantity}>
-                                            <div>{purchase.product.name} ______ {purchase.quantity} {findUnit(purchase.product.unit)}</div>
-                                        </div>
+                                {availableQuota.map((quota) => (
+                                        <tr key={quota.idencode}>
+                                          <td>{quota.name}</td> 
+                                          <td>{quota.quantity} {findUnit(quota.unit)}</td> 
+                                        </tr>
                                     ))}
-
                                 </tbody>
                             </table>
                         </div>
-                        <div className="switchbutton">
-                    {!(previous === null) &&<button className="nextbtn" value={previous}  >&#8592;Previous</button>}
-                    {!(next === null) && <button className="nextbtn" value={next} >Next&#8594;</button>}
+                    </div></>}
+
+                    {itemType==="purchased" && <> <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Purchased Items</h3>
+                    <div class="tables">
+                        <div class="last-appointments">
+
+                            <table class="appointments">
+                                <thead>
+                                    <td>Product</td>
+                                    <td>Quantity</td>
+
+                                </thead>
+                                <tbody>
+                                {tokenDataPurchase.map((item) => (
+                                        <tr key={item.idencode}>
+                                          <td>{item.product.name}</td> 
+                                          <td>{item.quantity} {findUnit(item.product.unit)}</td> 
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
+                    </div></>}
+
+                   {itemType==="available" && <> <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Available Items</h3>
+                    <div class="tables">
+                        <div class="last-appointments">
+
+                            <table class="appointments">
+                                <thead>
+                                    <td>Product</td>
+                                    <td>Quantity</td>
+
+                                </thead>
+                                <tbody>
+                                {tokenDataAvailable.map((item) => (
+                                        <tr key={item.idencode}>
+                                          <td>{item.name}</td> 
+                                          <td>{item.quantity} {findUnit(item.unit)}</td> 
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div></>}
+
                 </div>
             </div>
+            {newToken && <CreatToken setNewToken={setNewToken}/>}
+            {newPurchase && <CreatPurchase setNewPurchase={setNewPurchase} tokenDataAvailable={tokenDataAvailable}/>}
         </div>
     );
 }
