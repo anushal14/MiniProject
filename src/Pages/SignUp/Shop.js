@@ -8,6 +8,7 @@ import './SignUp.css'
 function Shop() {
     const notify = () => toast.success("Great! Account created Successfully", { position: toast.POSITION.TOP_CENTER, autoClose: 2000 });
     let navigate = useNavigate();
+    const [error,setError]=useState("")
     const [values, setValues] = useState({
         password: "",
         username: "",
@@ -70,6 +71,7 @@ function Shop() {
           )
             .catch((error) => {
               console.log('error', error.response.data)
+              setError(error.response.data)
             })
        
     }
@@ -86,12 +88,19 @@ function Shop() {
                 <input type="text" name="first_name" placeholder="First Name" value={values.first_name} onChange={handleChange} />
                 <input type="text" name="last_name" placeholder="Last Name" value={values.last_name} onChange={handleChange} />
                 <input type="text" name="username" placeholder="UserName" value={values.username} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.username}</span>
                 <input type="number" name="mobile" placeholder="Mobile number" value={values.mobile} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.mobile}</span>
                 <input type="email" name="email" placeholder="Email" value={values.email} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.email}</span>
                 <input type="number" name="employee_id" placeholder="Employee ID" value={values.employee_id} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.employee_id}</span>
                 <input type="text" name="employee_name" placeholder="Employee Name" value={values.employee_name} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.employee_name}</span>
                 <input type="text" name="location" placeholder="Location" value={values.location} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.location}</span>
                 <input type="password" name="password" placeholder="Password" value={values.password} onChange={handleChange} />
+                <span style={{ color: "red"}}>{error.password}</span>
                 <button class="btnn" onClick={handleSubmit}>Register</button>
                 <p class="link">Already have an account?<br /><Link to='/'>Sign In</Link> here</p>
             </div>

@@ -3,6 +3,7 @@ import './Popup.css'
 import axios from "axios";
 import { basic_url } from "../Common/constant";
 function CreatToken({ setNewToken }) {
+    const [error,setError]=useState("")
     const [values, setValues] = useState({
         shop: "",
     });
@@ -31,6 +32,7 @@ function CreatToken({ setNewToken }) {
     }, [])
     const handleChange = (e) => {
         setShopStock([])
+        setError("")
         setValues({
             ...values, [e.target.name]: e.target.value
         });
@@ -90,6 +92,7 @@ function CreatToken({ setNewToken }) {
         )
             .catch((error) => {
                 console.log('error', error.response.data)
+                setError(error.response.data.detail)
 
             })
 
@@ -109,6 +112,7 @@ function CreatToken({ setNewToken }) {
                             <option value={shop.idencode} key={shop.idencode}>{shop.first_name}</option>
                         ))}
                     </select>
+                    <span style={{ color: "red"}}>{error}</span>
                     {shopStock.length!==0 && <h5 style={{color:"black",paddingLeft:"5px"}}>Available products in this shop</h5>}
                     {shopStock.map((stock) => (
                         <tr>
@@ -118,6 +122,7 @@ function CreatToken({ setNewToken }) {
                     ))}
                     {shopStock.length!==0 && <p style={{color:"red",paddingLeft:"5px",paddingBottom:"5px"}}>*Some of your ration may not be available in this shop, Please <br/> check before create.</p>}
                     <button className="popup-buttn" onClick={handleSubmit}>Create</button>
+                    
                 </div>
             </div>
         </div>

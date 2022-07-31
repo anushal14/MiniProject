@@ -81,6 +81,7 @@ function StockTable() {
 
     }
     const handleSubmit=()=>{
+        setDashboardLoading(true)
         console.log(quantity)
         setUpdate("false")
         const payload = {
@@ -99,6 +100,7 @@ function StockTable() {
             },
         }).then((response) => {
             console.log(response);
+            setDashboardLoading(false)
             setUpdate("true")
             setQuantity({
                 QValue:"",

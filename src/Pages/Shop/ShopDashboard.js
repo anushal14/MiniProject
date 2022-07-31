@@ -20,6 +20,7 @@ function ShopDashboard() {
     }
 
     useEffect(() => {
+        localStorage.setItem('TokenId',"")
         axios({
             method: 'get',
             url: `${basic_url}/accounts/shop/dashboard/`,

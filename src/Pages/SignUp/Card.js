@@ -8,6 +8,7 @@ import './SignUp.css'
 function Card() {
     const notify = () => toast.success("Great! Account created Successfully", { position: toast.POSITION.TOP_CENTER, autoClose: 2000 });
     let navigate = useNavigate();
+    const [error,setError]=useState("")
     const [values, setValues] = useState({
         username: "",
         email: "",
@@ -61,6 +62,7 @@ function Card() {
           )
             .catch((error) => {
               console.log('error', error.response.data)
+              setError(error.response.data)
             })
        
     }
@@ -75,10 +77,14 @@ function Card() {
                 </div>
                 <h2>Sign Up as Card Holder</h2>
                 <input type="text" name="holder_name" placeholder="Holder Name" value={values.holder_name} onChange={handleChange}/>
+                <span style={{ color: "red"}}>{error.holder_name}</span>
                 <input type="text" name="username" placeholder="UserName" value={values.username} onChange={handleChange} />
                 <input type="number" name="mobile" placeholder="Mobile number" value={values.mobile} onChange={handleChange}/>
+                <span style={{ color: "red"}}>{error.mobile}</span>
                 <input type="email" name="email" placeholder="Email" value={values.email} onChange={handleChange}/>
+                <span style={{ color: "red"}}>{error.email}</span>
                 <input type="number" name="card_number" placeholder="Card Number" value={values.card_number} onChange={handleChange}/>
+                <span style={{ color: "red"}}>{error.card_number}</span>
                 <select  name="card_type" value={values.card_type} onChange={handleChange}>
                         <option value="100">Yellow</option>
                         <option value="200">Pink</option>

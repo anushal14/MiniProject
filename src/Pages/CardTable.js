@@ -131,6 +131,16 @@ function CardTable() {
 
             })
         }
+        const findCardType = (type) => {
+            if (type === 100)
+                return "Yellow"
+            else if (type === 200)
+                return "Pink"
+            else if (type === 300)
+                return "White"
+            else
+                return "Blue"
+        }
     return (
         <div>
             {dashboardLoading && <Loading/>}
@@ -206,7 +216,7 @@ function CardTable() {
                         <tr key={card.idencode}>
                             <td >{card.card_number}</td>
                             <td>{card.holder_name}</td>
-                            <td >{card.card_type}</td>
+                            <td >{findCardType(card.card_type)}</td>
                             <td >{card.email}</td>
                             <td >{card.mobile}</td>
                             {!verify && <td><button style={{marginRight:"10px"}}  onClick={() => CardVerify(card.idencode)}>&#9989;</button>

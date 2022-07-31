@@ -83,6 +83,7 @@ function QuotaTable() {
 
     }
     const handleSubmit=()=>{
+        setDashboardLoading(true)
         console.log(quantity)
         setUpdate("false")
         const payload = {
@@ -101,6 +102,7 @@ function QuotaTable() {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
+            setDashboardLoading(false)
             console.log(response);
             setUpdate("true")
             setQuantity({

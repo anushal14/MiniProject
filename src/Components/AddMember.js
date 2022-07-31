@@ -3,6 +3,7 @@ import './Popup.css'
 import { basic_url } from "../Common/constant";
 import axios from "axios";
 function AddMember({ setNewMember }) {
+    const [error,setError]=useState("")
     const [values, setValues] = useState({
         name: "",
         age: "",
@@ -52,7 +53,7 @@ function AddMember({ setNewMember }) {
         )
             .catch((error) => {
                 console.log('error', error.response.data)
-                //   setError(error.response.data)
+                  setError(error.response.data)
 
             })
 
@@ -67,15 +68,13 @@ function AddMember({ setNewMember }) {
                 <div class="content">
                     <span style={{ color: "black" }}>Name:</span>
                     <input className="popup-input" type="text" name="name" value={values.name} onChange={handleChange} />
+                    <span style={{ color: "red"}}>{error.name}</span>
                     <span style={{ color: "black" }}>Age:</span>
                     <input className="popup-input" type="number" name="age" value={values.age} onChange={handleChange} />
-                    {/* <span style={{ color: "black" }}>Age Group:</span>
-                    <select className="popup-select" name="age_group" value={values.age_group} onChange={handleChange}>
-                        <option value="100">Adult</option>
-                        <option value="200">Child</option>
-                    </select> */}
+                    <span style={{ color: "red"}}>{error.age}</span>
                     <span style={{ color: "black" }}>occupation:</span>
                     <input className="popup-input" type="text" name="occupation" value={values.occupation} onChange={handleChange} />
+                    <span style={{ color: "red"}}>{error.occupation}</span>
                     <span style={{ color: "black" }}>Gender:</span>
                     <select className="popup-select" name="gender" value={values.gender} onChange={handleChange}>
                         <option value="100">Male</option>

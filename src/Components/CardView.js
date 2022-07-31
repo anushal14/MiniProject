@@ -90,7 +90,7 @@ function CardView(props) {
                         <div class="card-header">
                             <h2>Card No: {localStorage.getItem('cardNo')}</h2>
                             <div class="card-info">
-                                <span style={{color:props.tokenData!==null?"green":"red"}}>Token: {props.tokenData.length!==0?"Active":"Not Active"}</span>
+                                <span style={{color:props.tokenData.length!==0?"green":"red"}}>Token: {props.tokenData.length!==0?"Active":"Not Active"}</span>
                                 <span ></span>
                                 <span >Mob No: {cardData.mobile}</span>
                             </div>
