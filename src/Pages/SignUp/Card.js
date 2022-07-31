@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { basic_url } from "../../Common/constant";
 import axios from "axios";
 import './SignUp.css'
 function Card() {
@@ -34,7 +35,7 @@ function Card() {
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/signup/card/`,
+            url: `${basic_url}/accounts/signup/card/`,
             data: payload,
             headers: {
               // 'Authorization': `bearer ${token}`,

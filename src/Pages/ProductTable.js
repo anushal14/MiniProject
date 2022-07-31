@@ -3,6 +3,7 @@ import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import AddProduct from "../Components/AddProduct";
 import Loading from "../Components/Loading";
+import { basic_url } from "../Common/constant";
 import './Dashboard.css';
 function ProductTable() {
     const [product, setProduct] = useState([])
@@ -17,7 +18,7 @@ function ProductTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/products/`,
+            url: `${basic_url}/supply/products/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),

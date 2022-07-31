@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
 import axios from "axios";
+import { basic_url } from "../Common/constant";
 function AddQuota({ setNewQuota }) {
     const [values, setValues] = useState({
         product: "",
@@ -13,7 +14,7 @@ function AddQuota({ setNewQuota }) {
     useEffect(()=>{
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/products/?limit=100`,
+            url: `${basic_url}/supply/products/?limit=100`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -50,7 +51,7 @@ function AddQuota({ setNewQuota }) {
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/quota/`,
+            url: `${basic_url}/supply/quota/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

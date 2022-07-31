@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { basic_url } from "../../Common/constant";
 import axios from "axios";
 import './SignUp.css';
 // toast.configure();
@@ -37,7 +38,7 @@ function Admin() {
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/signup/admin/`,
+            url: `${basic_url}/accounts/signup/admin/`,
             data: payload,
             headers: {
               // 'Authorization': `bearer ${token}`,

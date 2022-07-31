@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import { Link,Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { basic_url } from "../../Common/constant";
 import './Login.css'
 function ShopLogin() {
     const [responseData, setResponseData] = useState({})
@@ -28,7 +29,7 @@ function ShopLogin() {
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/login/`,
+            url: `${basic_url}/accounts/login/`,
             data: payload,
             headers: {
               // 'Authorization': `bearer ${token}`,
@@ -73,9 +74,6 @@ function ShopLogin() {
 
                 <div class="menu">
                     <ul className="HomeUl">
-                        <li className='HomeLi'><a href="#">HOME</a></li>
-                        <li className='HomeLi'><a href="#">SUPPLYCCO</a></li>
-                        <li className='HomeLi'><a href="#">RATIONSHOP</a></li>
                         <li className='HomeLi'><a href="#">CONTACT</a></li>
                     </ul>
                 </div>

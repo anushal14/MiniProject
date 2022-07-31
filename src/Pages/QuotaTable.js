@@ -3,6 +3,7 @@ import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import AddQuota from "../Components/AddQuota";
 import Loading from "../Components/Loading";
+import { basic_url } from "../Common/constant";
 import './Dashboard.css';
 function QuotaTable() {
     const [quota, setQuota] = useState([])
@@ -22,7 +23,7 @@ function QuotaTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/quota/`,
+            url: `${basic_url}/supply/quota/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -89,7 +90,7 @@ function QuotaTable() {
 
         axios({
             method: 'patch',
-            url: `https://ration-master.herokuapp.com/supply/quota/${quantity.id}/`,
+            url: `${basic_url}/supply/quota/${quantity.id}/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TokenView from "../../Components/TokenView";
 import Loading from "../../Components/Loading";
+import { basic_url } from "../../Common/constant";
 import bell from '../../images/bell.png'
 import ShowNotification from "../../Components/showNotification";
 import '../Dashboard.css';
@@ -21,7 +22,7 @@ function ShopDashboard() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/shop/dashboard/`,
+            url: `${basic_url}/accounts/shop/dashboard/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -41,7 +42,7 @@ function ShopDashboard() {
 
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/token/?shop=${localStorage.getItem('user-id')}&status=${status}&date=`,
+            url: `${basic_url}/supply/token/?shop=${localStorage.getItem('user-id')}&status=${status}&date=`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),

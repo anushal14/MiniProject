@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LogoutDialog from "./LogoutDialogue";
 import './TokenView.css'
+import { basic_url } from "../Common/constant";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 function TokenView(props) {
@@ -15,7 +16,7 @@ function TokenView(props) {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/token/get/${localStorage.getItem('TokenId')}/`,
+            url: `${basic_url}/supply/token/get/${localStorage.getItem('TokenId')}/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -43,7 +44,7 @@ function TokenView(props) {
         }
         axios({
             method: 'patch',
-            url: `https://ration-master.herokuapp.com/supply/token/update/${localStorage.getItem('TokenId')}/`,
+            url: `${basic_url}/supply/token/update/${localStorage.getItem('TokenId')}/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

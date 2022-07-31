@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LogoutDialog from "./LogoutDialogue";
 import './TokenView.css'
 import AddMember from "./AddMember";
+import { basic_url } from "../Common/constant";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 function CardView(props) {
@@ -13,7 +14,7 @@ function CardView(props) {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/member/?card=${localStorage.getItem('user-id')}`,
+            url: `${basic_url}/accounts/member/?card=${localStorage.getItem('user-id')}`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -32,7 +33,7 @@ function CardView(props) {
 
             axios({
                 method: 'get',
-                url: `https://ration-master.herokuapp.com/accounts/get/card/${localStorage.getItem('user-id')}/`,
+                url: `${basic_url}/accounts/get/card/${localStorage.getItem('user-id')}/`,
                 headers: {
                     //  'Authorization': `bearer ${token}`,
                     'bearer': localStorage.getItem('bearer'),

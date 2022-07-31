@@ -3,6 +3,7 @@ import axios from "axios";
 import CardView from "../../Components/CardView";
 import CreatToken from "../../Components/CreateToken";
 import CreatPurchase from "../../Components/CreatePurchase";
+import { basic_url } from "../../Common/constant";
 import Loading from "../../Components/Loading";
 import bell from '../../images/bell.png'
 import ShowNotification from "../../Components/showNotification";
@@ -24,7 +25,7 @@ function CardDashboard() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/token/active/`,
+            url: `${basic_url}/supply/token/active/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -47,7 +48,7 @@ function CardDashboard() {
 
             axios({
                 method: 'get',
-                url: `https://ration-master.herokuapp.com/accounts/get/card/${localStorage.getItem('user-id')}/`,
+                url: `${basic_url}/accounts/get/card/${localStorage.getItem('user-id')}/`,
                 headers: {
                     //  'Authorization': `bearer ${token}`,
                     'bearer': localStorage.getItem('bearer'),

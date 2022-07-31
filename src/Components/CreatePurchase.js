@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
+import { basic_url } from "../Common/constant";
 import axios from "axios";
 function CreatPurchase({ setNewPurchase }) {
     const [tokenDataAvailable, setTokenDataAvailable] = useState([])
@@ -14,7 +15,7 @@ function CreatPurchase({ setNewPurchase }) {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/token/active/`,
+            url: `${basic_url}/supply/token/active/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -76,7 +77,7 @@ function CreatPurchase({ setNewPurchase }) {
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/purchase/`,
+            url: `${basic_url}/supply/purchase/`,
             data: payload,
             headers: {
                 'bearer': localStorage.getItem('bearer'),

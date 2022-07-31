@@ -3,6 +3,7 @@ import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import AddStock from "../Components/AddStock";
 import Loading from "../Components/Loading";
+import { basic_url } from "../Common/constant";
 import './Dashboard.css';
 function StockTable() {
     const [stock, setStock] = useState([])
@@ -22,7 +23,7 @@ function StockTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/stock/?shop=&product=`,
+            url: `${basic_url}/supply/stock/?shop=&product=`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -86,7 +87,7 @@ function StockTable() {
 
         axios({
             method: 'patch',
-            url: `https://ration-master.herokuapp.com/supply/stock/${quantity.id}/`,
+            url: `${basic_url}/supply/stock/${quantity.id}/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

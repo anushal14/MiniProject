@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
 import axios from "axios";
+import { basic_url } from "../Common/constant";
 function CreatToken({ setNewToken }) {
     const [values, setValues] = useState({
         shop: "",
@@ -10,7 +11,7 @@ function CreatToken({ setNewToken }) {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/list/shop/?location=&verified=true&limit=100`,
+            url: `${basic_url}/accounts/list/shop/?location=&verified=true&limit=100`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -35,7 +36,7 @@ function CreatToken({ setNewToken }) {
         });
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/get/shop/${e.target.value}/`,
+            url: `${basic_url}/accounts/get/shop/${e.target.value}/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -71,7 +72,7 @@ function CreatToken({ setNewToken }) {
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/token/create/`,
+            url: `${basic_url}/supply/token/create/`,
             data: payload,
             headers: {
                 'bearer': localStorage.getItem('bearer'),

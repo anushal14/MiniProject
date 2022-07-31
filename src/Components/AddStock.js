@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
 import axios from "axios";
+import { basic_url } from "../Common/constant";
 function AddStock({ setNewStock }) {
     const [values, setValues] = useState({
         product: "",
@@ -12,7 +13,7 @@ function AddStock({ setNewStock }) {
     useEffect(()=>{
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/products/?limit=100`,
+            url: `${basic_url}/supply/products/?limit=100`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -32,7 +33,7 @@ function AddStock({ setNewStock }) {
 
             axios({
                 method: 'get',
-                url: `https://ration-master.herokuapp.com/accounts/list/shop/?location=&verified=true&limit=100`,
+                url: `${basic_url}/accounts/list/shop/?location=&verified=true&limit=100`,
                 headers: {
                     //  'Authorization': `bearer ${token}`,
                     'bearer': localStorage.getItem('bearer'),
@@ -67,7 +68,7 @@ function AddStock({ setNewStock }) {
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/stock/`,
+            url: `${basic_url}/supply/stock/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

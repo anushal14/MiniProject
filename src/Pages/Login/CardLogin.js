@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link,Navigate } from 'react-router-dom';
 import axios from "axios";
+import { basic_url } from "../../Common/constant";
 import './Login.css'
 function CardLogin() {
     const [otp, setOtp] = useState(false);
@@ -25,7 +26,7 @@ function CardLogin() {
        console.log(values)
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/login/create/otp/?card_number=${values.card_number}`
+            url: `${basic_url}/accounts/login/create/otp/?card_number=${values.card_number}`
         }).then((response) => {
             console.log(response);
             setOtp(true);
@@ -46,7 +47,7 @@ function CardLogin() {
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/login/otp/`,
+            url: `${basic_url}/accounts/login/otp/`,
             data: payload,
             headers: {
               // 'Authorization': `bearer ${token}`,
@@ -89,9 +90,6 @@ function CardLogin() {
 
                 <div class="menu">
                     <ul className="HomeUl">
-                        <li className='HomeLi'><a href="#">HOME</a></li>
-                        <li className='HomeLi'><a href="#">SUPPLYCCO</a></li>
-                        <li className='HomeLi'><a href="#">RATIONSHOP</a></li>
                         <li className='HomeLi'><a href="#">CONTACT</a></li>
                     </ul>
                 </div>

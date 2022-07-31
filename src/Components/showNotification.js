@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import './Popup.css'
+import { basic_url } from "../Common/constant";
 import axios from "axios";
 function ShowNotification({ setNotification }) {
     const [notificationData, setNotificationData] = useState([])
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/supply/notification/`,
+            url: `${basic_url}/supply/notification/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),

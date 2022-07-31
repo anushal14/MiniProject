@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import './Popup.css'
 import axios from "axios";
+import { basic_url } from "../Common/constant";
 
 function AddHoliday({ setNewHoliday }) {
     const [holidays,setHolidays]=useState([])
@@ -23,7 +24,7 @@ function AddHoliday({ setNewHoliday }) {
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/public/holiday/`,
+            url: `${basic_url}/supply/public/holiday/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

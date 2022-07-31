@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './Popup.css'
 import axios from "axios";
+import { basic_url } from "../Common/constant";
 function AddNotice({ setNewNotice }) {
     const [values, setValues] = useState({
         content: "",
@@ -23,7 +24,7 @@ function AddNotice({ setNewNotice }) {
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/supply/notification/`,
+            url: `${basic_url}/supply/notification/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

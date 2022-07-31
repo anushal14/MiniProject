@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../Components/Sidebar";
 import './Dashboard.css';
+import { basic_url } from "../Common/constant";
 import Loading from "../Components/Loading";
 function ShopTable() {
     const [shop, setShop] = useState([])
@@ -17,7 +18,7 @@ function ShopTable() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `https://ration-master.herokuapp.com/accounts/signup/shop/?location=&verified=${verify}`,
+            url: `${basic_url}/accounts/signup/shop/?location=&verified=${verify}`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -38,7 +39,7 @@ function ShopTable() {
             })
             axios({
                 method: 'get',
-                url: `https://ration-master.herokuapp.com/accounts/admin/dashboard/`,
+                url: `${basic_url}/accounts/admin/dashboard/`,
                 headers: {
                     //  'Authorization': `bearer ${token}`,
                     'bearer': localStorage.getItem('bearer'),
@@ -66,7 +67,7 @@ function ShopTable() {
         setVerify(true)
         axios({
             method: 'patch',
-            url: `https://ration-master.herokuapp.com/accounts/verify/shop/${id}/`,
+            url: `${basic_url}/accounts/verify/shop/${id}/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -86,7 +87,7 @@ function ShopTable() {
     const ShopDelete = (id) => {
         axios({
             method: 'patch',
-            url: `https://ration-master.herokuapp.com/accounts/delete/shop/${id}/`,
+            url: `${basic_url}/accounts/delete/shop/${id}/`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Popup.css'
+import { basic_url } from "../Common/constant";
 import axios from "axios";
 function AddMember({ setNewMember }) {
     const [values, setValues] = useState({
@@ -28,7 +29,7 @@ function AddMember({ setNewMember }) {
 
         axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/member/`,
+            url: `${basic_url}/accounts/member/`,
             data: payload,
             headers: {
                 //  'Authorization': `bearer ${token}`,

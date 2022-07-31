@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link,useNavigate } from 'react-router-dom';
+import { basic_url } from "../../Common/constant";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
@@ -40,7 +41,7 @@ function Shop() {
       
           axios({
             method: 'post',
-            url: `https://ration-master.herokuapp.com/accounts/signup/shop/`,
+            url: `${basic_url}/accounts/signup/shop/`,
             data: payload,
             headers: {
               // 'Authorization': `bearer ${token}`,
