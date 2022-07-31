@@ -147,10 +147,10 @@ function TokenView(props) {
                                 </table>
 
                             </div>}
-                            <div style={{ position: "absolute", bottom: "140px", justifyContent: "space-around" }}>
+                            {tokenData.status==="100" && <div style={{ position: "absolute", bottom: "140px", justifyContent: "space-around" }}>
                                 <button value="300" className="Tokenbtn" style={{ background: "red" }} onClick={onAction}>Cancel</button>
                                 <button value="200" className="Tokenbtn" style={{ background: "rgb(34, 139, 34)" }} onClick={onAction}>Complete</button>
-                            </div>
+                            </div>}
                         </div>
 
                     </div>

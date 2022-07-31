@@ -28,44 +28,34 @@ function ShowNotification({ setNotification }) {
 
     return (
 
-        <div id="popup1" class="overlay">
-            {/* <div class="popup">
+        <div id="popup1" class="overlay" style={{background:"transparent"}}>
+            <div class="popup" style={{marginTop:"65px",marginLeft:"970px",border:"1px solid black"}}>
                 <h2>Notifications</h2>
                 <a class="close" href="#" onClick={() => setNotification(false)}>&times;</a>
-                <div class="content">
-                    <table>
-                    {notificationData.map((notice)=>
-                    <tr style={{width:"30px"}}><td style={{width:"30px"}}><span  style={{color:"black",fontSize:"25px"}}>&#8226;</span><span style={{color:"blue"}}> {notice.content}</span></td></tr>)}
-                    </table>
-                </div>
-            </div> */}
-<div class="popup">
-<h2>Notifications</h2>
-                <a class="close" href="#" onClick={() => setNotification(false)}>&times;</a>
-                    {/* <div class="Sidecard" > */}
-                        
-                        <div class="card-body">
-                            
-                            
-                            <div >
-                                
-                                <table class="appointments">
-                                <tbody>
-                                {notificationData.map((notice)=> (
-                        <tr key={notice.content}>
-                            <td style={{color:"blue",fontWeight:"600",cursor:"pointer",background:"white"}}><span  style={{color:"black",fontSize:"25px"}}>&#8226; </span>{notice.content}</td>
-                        </tr>
-                    ))}
+                {/* <div class="Sidecard" > */}
 
-                                </tbody>
-                            
-                            </table>
-                            </div>
-                           
-                        </div>
-                        
+                <div class="card-body">
+
+
+                    <div >
+
+                        <table class="appointments">
+                            <tbody>
+                                {notificationData.map((notice) => (
+                                    <tr key={notice.content}>
+                                        <td style={{ color: "blue", fontWeight: "600", cursor: "pointer", background: "white" }}><span style={{ color: "black", fontSize: "25px" }}>&#8226; </span>{notice.content}</td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+
+                        </table>
                     </div>
-                    {/* </div> */}
+
+                </div>
+
+            </div>
+            {/* </div> */}
 
         </div>
     );
