@@ -9,6 +9,7 @@ import '../Dashboard.css';
 function ShopDashboard() {
     const [dashboard, setDashboard] = useState([])
     const [token,setToken] = useState([])
+    const [update,setUpdate]=useState()
     const [status,setStatus] = useState("100")
     const [changeToken,setChangeToken] = useState(false)
     const [notification,setNotification] = useState(false)
@@ -62,7 +63,7 @@ function ShopDashboard() {
                 console.log('error', error.response.data)
 
             })
-    }, [status])
+    }, [status,update])
 
     const onSwitchPage = (e) => {
         axios({
@@ -96,7 +97,7 @@ function ShopDashboard() {
             {/* {dashboardLoading && <Loading />} */}
             <div class="container">
 
-                <TokenView changeToken={changeToken}/>
+                <TokenView changeToken={changeToken} setUpdate={setUpdate} update={update}/>
 
                 <div class="main">
                     <div class="top-bar">

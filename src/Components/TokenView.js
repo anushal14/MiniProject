@@ -35,9 +35,10 @@ function TokenView(props) {
                 console.log('error', error.response.data)
 
             })
-    }, [props.changeToken])
+    }, [props.changeToken,props.update])
 
     const onAction = (e) => {
+        props.setUpdate("true")
         console.log("completed")
         const payload = {
             status: e.target.value
@@ -54,6 +55,7 @@ function TokenView(props) {
             },
         }).then((response) => {
             console.log('completed', response)
+            props.setUpdate("false")
         }).catch((error) => {
             console.log('error', error.response.data)
 
