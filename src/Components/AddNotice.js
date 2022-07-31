@@ -16,8 +16,8 @@ function AddNotice({ setNewNotice }) {
         e.preventDefault();
         console.log(values);
         const payload = {
-            content: values.name,
-            type: values.age,
+            content: values.content,
+            type: values.type,
           
         }
 
@@ -32,7 +32,7 @@ function AddNotice({ setNewNotice }) {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            console.log("memberAdded", response);
+            console.log("notice", response);
             setValues(
                 {
                     content: "",

@@ -318,4 +318,8 @@ li{
   box-shadow: 5px 5px 20px rgb(13, 255, 0),-5px -5px 20px rgb(4, 255, 0)
   }
 }
-
+.bell:hover{
+  height: 32px;
+  width: 42px;
+cursor: pointer;
+}

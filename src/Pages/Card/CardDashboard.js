@@ -4,6 +4,8 @@ import CardView from "../../Components/CardView";
 import CreatToken from "../../Components/CreateToken";
 import CreatPurchase from "../../Components/CreatePurchase";
 import Loading from "../../Components/Loading";
+import bell from '../../images/bell.png'
+import ShowNotification from "../../Components/showNotification";
 import '../Dashboard.css';
 function CardDashboard() {
     const [availableQuota,setAvailableQuota]= useState([])
@@ -14,7 +16,7 @@ function CardDashboard() {
     const [itemType,setItemType]= useState("available")
     const[newToken,setNewToken]=useState(false)
     const [newPurchase,setNewPurchase]=useState(false)
-
+    const [notification,setNotification] = useState(false)
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
@@ -83,13 +85,10 @@ function CardDashboard() {
 
                 <div class="main"  style={{marginLeft:"102px",width:"1132px"}}>
                     <div class="top-bar">
-                        <div class="search">
-                            <input type="text" name="search" placeholder="search here" />
-                            <label ><i class="fas fa-search"></i></label>
-                        </div>
+                        
                         <i class="fas fa-bell"></i>
                         <div class="user">
-                            <img src="doctor1.png" alt="" />
+                        <img onClick={()=>setNotification(true)} src={bell} height="30px" width="40px" className="bell" style={{marginTop:"10px",marginLeft:"-25px"}}/>
                         </div>
                     </div>
 
@@ -213,6 +212,7 @@ function CardDashboard() {
             </div>
             {newToken && <CreatToken setNewToken={setNewToken}/>}
             {newPurchase && <CreatPurchase setNewPurchase={setNewPurchase} tokenDataAvailable={tokenDataAvailable}/>}
+            {notification && <ShowNotification setNotification={setNotification}/>}
         </div>
     );
 }

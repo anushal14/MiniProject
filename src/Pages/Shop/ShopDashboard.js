@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TokenView from "../../Components/TokenView";
 import Loading from "../../Components/Loading";
+import bell from '../../images/bell.png'
+import ShowNotification from "../../Components/showNotification";
 import '../Dashboard.css';
 function ShopDashboard() {
     const [dashboard, setDashboard] = useState([])
     const [token,setToken] = useState([])
     const [status,setStatus] = useState("100")
     const [changeToken,setChangeToken] = useState(false)
+    const [notification,setNotification] = useState(false)
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
     window.history.pushState(null, null, window.location.href);
@@ -101,7 +104,7 @@ function ShopDashboard() {
                         </div>
                         <i class="fas fa-bell"></i>
                         <div class="user">
-                            <img src="doctor1.png" alt="" />
+                           <img onClick={()=>setNotification(true)} src={bell} height="30px" width="40px" className="bell" style={{marginTop:"10px"}}/>
                         </div>
                     </div>
 
@@ -175,6 +178,7 @@ function ShopDashboard() {
                     </div>
                 </div>
             </div>
+            {notification && <ShowNotification setNotification={setNotification}/>}
         </div>
     );
 }
