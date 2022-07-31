@@ -11,6 +11,7 @@ function CardTable() {
     const [previous, setPrevious] = useState("");
     const [dashboardLoading, setDashboardLoading] = useState(true);
     const [verify, setVerify] = useState(false)
+    const [update,setUpdate]=useState()
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function (event) {
         window.history.go(1);
@@ -56,7 +57,7 @@ function CardTable() {
                     console.log('error', error.response.data)
     
                 })
-    }, [verify])
+    }, [verify,update])
 
     const switchTable=()=>{
         setDashboardLoading(true)
@@ -64,6 +65,7 @@ function CardTable() {
     }
 
     const CardVerify = (id) => {
+        setUpdate("false")
         axios({
             method: 'patch',
             url: `${basic_url}/accounts/verify/card/${id}/`,
@@ -75,6 +77,7 @@ function CardTable() {
             },
         }).then((response) => {
             console.log('shopData', response)
+            setUpdate("true")
         }
         )
             .catch((error) => {
@@ -84,6 +87,7 @@ function CardTable() {
     }
 
     const CardDelete = (id) => {
+        setUpdate("false")
         axios({
             method: 'patch',
             url: `${basic_url}/accounts/delete/card/${id}/`,
@@ -95,6 +99,7 @@ function CardTable() {
             },
         }).then((response) => {
             console.log('shopData', response)
+            setUpdate("true")
         }
         )
             .catch((error) => {

@@ -9,6 +9,7 @@ function ShopTable() {
     const [dashboard,setDashboard] = useState([])
     const [next, setNext] = useState("");
     const [previous, setPrevious] = useState("");
+    const [update,setUpdate]=useState()
     const [dashboardLoading, setDashboardLoading] = useState(true);
     const [verify, setVerify] = useState(false)
     window.history.pushState(null, null, window.location.href);
@@ -56,7 +57,7 @@ function ShopTable() {
                     console.log('error', error.response.data)
     
                 })
-    }, [verify])
+    }, [verify,update])
 
     const switchTable = () => {
         setDashboardLoading(true)
@@ -64,7 +65,8 @@ function ShopTable() {
     }
 
     const ShopVerify = (id) => {
-        setVerify(true)
+        setUpdate("false")
+        
         axios({
             method: 'patch',
             url: `${basic_url}/accounts/verify/shop/${id}/`,
@@ -75,6 +77,7 @@ function ShopTable() {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
+            setUpdate("true")
             console.log('shopData', response)
 
         }
@@ -85,6 +88,7 @@ function ShopTable() {
             })
     }
     const ShopDelete = (id) => {
+        setUpdate("false")
         axios({
             method: 'patch',
             url: `${basic_url}/accounts/delete/shop/${id}/`,
@@ -96,6 +100,7 @@ function ShopTable() {
             },
         }).then((response) => {
             console.log('shopData', response)
+            setUpdate("true")
 
         }
         )

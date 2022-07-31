@@ -7,6 +7,7 @@ import { basic_url } from "../Common/constant";
 import './Dashboard.css';
 function StockTable() {
     const [stock, setStock] = useState([])
+    const [update,setUpdate]=useState()
     const [quantity,setQuantity]= useState({
         QValue:"",
         id:"",
@@ -42,7 +43,7 @@ function StockTable() {
                 console.log('error', error.response.data)
 
             })
-    }, [newStock])
+    }, [newStock,update])
 
     const onSwitchPage = (e) => {
         axios({
@@ -81,6 +82,7 @@ function StockTable() {
     }
     const handleSubmit=()=>{
         console.log(quantity)
+        setUpdate("false")
         const payload = {
             quantity: parseFloat(quantity.QValue)+parseFloat(quantity.stockQuant)
         }
@@ -97,6 +99,7 @@ function StockTable() {
             },
         }).then((response) => {
             console.log(response);
+            setUpdate("true")
             setQuantity({
                 QValue:"",
                 id:"",

@@ -7,6 +7,7 @@ import { basic_url } from "../Common/constant";
 import './Dashboard.css';
 function QuotaTable() {
     const [quota, setQuota] = useState([])
+    const [update,setUpdate]=useState()
     const [quantity,setQuantity]= useState({
         QValue:"",
         id:"",
@@ -42,7 +43,7 @@ function QuotaTable() {
                 console.log('error', error.response.data)
 
             })
-    }, [newQuota])
+    }, [newQuota,update])
 
     const onSwitchPage = (e) => {
         axios({
@@ -83,6 +84,7 @@ function QuotaTable() {
     }
     const handleSubmit=()=>{
         console.log(quantity)
+        setUpdate("false")
         const payload = {
             // quantity: parseFloat(quantity.QValue)+parseFloat(quantity.quotaQuant)
             quantity:quantity.QValue
@@ -100,6 +102,7 @@ function QuotaTable() {
             },
         }).then((response) => {
             console.log(response);
+            setUpdate("true")
             setQuantity({
                 QValue:"",
                 id:"",
