@@ -7,6 +7,8 @@ import bell from '../../images/bell.png'
 import ShowNotification from "../../Components/showNotification";
 import '../Dashboard.css';
 function ShopDashboard() {
+    var today = new Date().toISOString().slice(0, 10)
+    const [forDate,setForDate]=useState(today)
     const [dashboard, setDashboard] = useState([])
     const [token,setToken] = useState([])
     const [update,setUpdate]=useState()
@@ -44,7 +46,7 @@ function ShopDashboard() {
 
         axios({
             method: 'get',
-            url: `${basic_url}/supply/token/?shop=${localStorage.getItem('user-id')}&status=${status}&date=`,
+            url: `${basic_url}/supply/token/?shop=${localStorage.getItem('user-id')}&status=${status}&date=${forDate}`,
             headers: {
                 //  'Authorization': `bearer ${token}`,
                 'bearer': localStorage.getItem('bearer'),
@@ -63,7 +65,7 @@ function ShopDashboard() {
                 console.log('error', error.response.data)
 
             })
-    }, [status,update])
+    }, [status,update,forDate])
 
     const onSwitchPage = (e) => {
         axios({
@@ -92,6 +94,9 @@ function ShopDashboard() {
             setChangeToken(!changeToken)
         }
 
+        const handleChange = (e) => {
+            setForDate(e.target.value);
+        }
     return (
         <div>
             {/* {dashboardLoading && <Loading />} */}
@@ -139,15 +144,16 @@ function ShopDashboard() {
                                 <i class="fas fa-bed"></i>
                             </div>
                         </div>
-                        {/* <div class="card">
+                        <div class="card">
                         <div class="card-content">
-                        <div class="number">67</div>
-                            <div class="card-name">retrtert</div>
+                        <input className="card-name"  type="date" name="forDate" value={forDate}  onChange={handleChange} />
+                        
+                            <div class="card-name">Select a Date</div>
                         </div>
                         <div class="icon-box">
                             <i class="fas fa-dollar-sign"></i>
                         </div>
-                    </div> */}
+                    </div>
                     </div>
                     <h3 style={{ color: "#060082", marginLeft: "20px", marginBottom: "10px" }}>Token Details</h3>
                     <div class="tables">

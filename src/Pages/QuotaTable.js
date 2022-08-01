@@ -204,7 +204,7 @@ function QuotaTable() {
                                             <td>{quota.product.name}</td>
                                             <td>{quota.quantity} {findUnit(quota.product.unit)}</td>
                                             <td>{findCardType(quota.card_type)}</td>
-                                            <td>{quota.age_group===100?"Adlut":"Child"}</td>
+                                            <td>{quota.age_group===100?"Adult":"Child"}</td>
                                             
                                             <td><div class="input-container">
                                                 <input onChange={(e) => {handleChange(e,quota.idencode,quota.quantity)}} name="QValue" type="number" value={quantity.id===quota.idencode?quantity.QValue:""} style={{width:"50px",height:"20px",border:"1px solid black"}} />
